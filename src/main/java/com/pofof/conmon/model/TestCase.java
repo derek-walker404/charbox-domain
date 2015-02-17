@@ -1,20 +1,22 @@
 package com.pofof.conmon.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tpofof.utils.JsonUtils;
 
 public class TestCase {
 
-	private long _id;
+	private String _id = null;
 	private String name;
 	private String uri;
+	private boolean active = true;
 
 	@JsonProperty
-	public long get_id() {
+	public String get_id() {
 		return _id;
 	}
 
 	@JsonProperty
-	public void set_id(long _id) {
+	public void set_id(String _id) {
 		this._id = _id;
 	}
 
@@ -36,5 +38,20 @@ public class TestCase {
 	@JsonProperty
 	public void setUri(String uri) {
 		this.uri = uri;
+	}
+
+	@JsonProperty
+	public boolean isActive() {
+		return active;
+	}
+
+	@JsonProperty
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	@Override
+	public String toString() {
+		return JsonUtils.toJson(this);
 	}
 }
