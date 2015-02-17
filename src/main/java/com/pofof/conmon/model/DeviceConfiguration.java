@@ -1,5 +1,6 @@
 package com.pofof.conmon.model;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,7 +10,7 @@ public class DeviceConfiguration {
 	private String _id = "";
 	private int trialsCount = 1;
 	private int testInterval = 60; // minutes
-	private List<TestCase> testCases;
+	private List<String> testCaseIds = Collections.emptyList();
 
 	@JsonProperty
 	public String get_id() {
@@ -42,12 +43,12 @@ public class DeviceConfiguration {
 	}
 
 	@JsonProperty
-	public List<TestCase> getTestCases() {
-		return testCases;
+	public List<String> getTestCaseIds() {
+		return testCaseIds;
 	}
 
 	@JsonProperty
-	public void setTestCases(List<TestCase> testCases) {
-		this.testCases = testCases;
+	public void setTestCaseIds(List<String> testCasesIds) {
+		this.testCaseIds = testCasesIds;
 	}
 }
