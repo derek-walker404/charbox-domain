@@ -8,8 +8,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class DeviceConfiguration {
 
 	private String _id = "";
-	private int trialsCount = 1;
-	private int testInterval = 60; // minutes
+	private int trialsCount = 3;
+	private int testInterval = 30; // minutes
 	private List<String> testCaseIds = Collections.emptyList();
 
 	@JsonProperty
