@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tpofof.utils.JsonUtils;
 
 public class DeviceConfiguration {
 
@@ -50,5 +51,10 @@ public class DeviceConfiguration {
 	@JsonProperty
 	public void setTestCaseIds(List<String> testCasesIds) {
 		this.testCaseIds = testCasesIds;
+	}
+
+	@Override
+	public String toString() {
+		return JsonUtils.toJson(this);
 	}
 }

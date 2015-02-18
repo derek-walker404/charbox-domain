@@ -1,6 +1,7 @@
 package com.pofof.conmon.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tpofof.utils.JsonUtils;
 
 public class Device {
 
@@ -53,4 +54,8 @@ public class Device {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		return JsonUtils.toJson(this);
+	}
 }

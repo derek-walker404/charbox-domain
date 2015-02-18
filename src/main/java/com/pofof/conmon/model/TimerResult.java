@@ -1,23 +1,15 @@
 package com.pofof.conmon.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tpofof.utils.JsonUtils;
 
 public class TimerResult {
 
-	private long deviceId;
 	private long startTime;
 	private long duration;
-	private long testCaseId;
-
-	@JsonProperty
-	public long getDeviceId() {
-		return deviceId;
-	}
-
-	@JsonProperty
-	public void setDeviceId(long deviceId) {
-		this.deviceId = deviceId;
-	}
+	private long pingDuration;
+	private String testCaseId;
+	private boolean outage = false;
 
 	@JsonProperty
 	public long getStartTime() {
@@ -25,8 +17,9 @@ public class TimerResult {
 	}
 
 	@JsonProperty
-	public void setStartTime(long startTime) {
+	public TimerResult setStartTime(long startTime) {
 		this.startTime = startTime;
+		return this;
 	}
 
 	@JsonProperty
@@ -35,18 +28,46 @@ public class TimerResult {
 	}
 
 	@JsonProperty
-	public void setDuration(long duration) {
+	public TimerResult setDuration(long duration) {
 		this.duration = duration;
+		return this;
 	}
 
 	@JsonProperty
-	public long getTestCaseId() {
+	public long getPingDuration() {
+		return pingDuration;
+	}
+
+	@JsonProperty
+	public TimerResult setPingDuration(long pingDuration) {
+		this.pingDuration = pingDuration;
+		return this;
+	}
+
+	@JsonProperty
+	public String getTestCaseId() {
 		return testCaseId;
 	}
 
 	@JsonProperty
-	public void setTestCaseId(long testCaseId) {
+	public TimerResult setTestCaseId(String testCaseId) {
 		this.testCaseId = testCaseId;
+		return this;
 	}
 
+	@JsonProperty
+	public boolean isOutage() {
+		return outage;
+	}
+
+	@JsonProperty
+	public TimerResult setOutage(boolean outage) {
+		this.outage = outage;
+		return this;
+	}
+	
+	@Override
+	public String toString() {
+		return JsonUtils.toJson(this);
+	}
 }
