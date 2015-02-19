@@ -6,7 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
-public class DeviceConfiguration {
+public class DeviceConfiguration implements PersistentModel {
 
 	private String _id = "";
 	private int trialsCount = 3;

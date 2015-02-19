@@ -3,7 +3,7 @@ package com.pofof.conmon.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
-public class TestCase {
+public class TestCase implements PersistentModel {
 
 	private String _id = null;
 	private String name;
