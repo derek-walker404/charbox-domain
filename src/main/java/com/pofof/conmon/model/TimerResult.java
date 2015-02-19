@@ -13,7 +13,7 @@ public class TimerResult implements PersistentModel {
 	private boolean outage = false;
 	private String serverIp = "";
 	private long size;
-	private int speed;
+	private double speed;
 	private int deviceId;
 
 	@JsonProperty
@@ -105,12 +105,12 @@ public class TimerResult implements PersistentModel {
 	}
 
 	@JsonProperty
-	public int getSpeed() {
+	public double getSpeed() {
 		return speed;
 	}
 
 	@JsonProperty
-	public TimerResult setSpeed(int speed) {
+	public TimerResult setSpeed(double speed) {
 		this.speed = speed;
 		return this;
 	}
