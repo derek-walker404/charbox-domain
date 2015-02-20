@@ -3,7 +3,7 @@ package com.pofof.conmon.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
-public class Device implements PersistentModel {
+public class Device implements PersistentModel<Device> {
 
 	private String _id = "";
 	private int deviceId = -1;

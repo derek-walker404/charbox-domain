@@ -3,7 +3,7 @@ package com.pofof.conmon.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
-public class TestCase implements PersistentModel {
+public class TestCase implements PersistentModel<TestCase> {
 
 	private String _id = null;
 	private String name;
@@ -16,8 +16,9 @@ public class TestCase implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void set_id(String _id) {
+	public TestCase set_id(String _id) {
 		this._id = _id;
+		return this;
 	}
 
 	@JsonProperty
@@ -26,8 +27,9 @@ public class TestCase implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void setName(String name) {
+	public TestCase setName(String name) {
 		this.name = name;
+		return this;
 	}
 
 	@JsonProperty
@@ -36,8 +38,9 @@ public class TestCase implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void setUri(String uri) {
+	public TestCase setUri(String uri) {
 		this.uri = uri;
+		return this;
 	}
 
 	@JsonProperty
@@ -46,8 +49,9 @@ public class TestCase implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void setActive(boolean active) {
+	public TestCase setActive(boolean active) {
 		this.active = active;
+		return this;
 	}
 	
 	@Override

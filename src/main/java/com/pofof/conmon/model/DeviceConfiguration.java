@@ -6,7 +6,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
-public class DeviceConfiguration implements PersistentModel {
+public class DeviceConfiguration implements PersistentModel<DeviceConfiguration> {
 
 	private String _id = "";
 	private int trialsCount = 3;
@@ -19,8 +19,9 @@ public class DeviceConfiguration implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void set_id(String _id) {
+	public DeviceConfiguration set_id(String _id) {
 		this._id = _id;
+		return this;
 	}
 
 	@JsonProperty
@@ -29,8 +30,9 @@ public class DeviceConfiguration implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void setTrialsCount(int trialsCount) {
+	public DeviceConfiguration setTrialsCount(int trialsCount) {
 		this.trialsCount = trialsCount;
+		return this;
 	}
 
 	@JsonProperty
@@ -39,8 +41,9 @@ public class DeviceConfiguration implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void setTestInterval(int testInterval) {
+	public DeviceConfiguration setTestInterval(int testInterval) {
 		this.testInterval = testInterval;
+		return this;
 	}
 
 	@JsonProperty
@@ -49,8 +52,9 @@ public class DeviceConfiguration implements PersistentModel {
 	}
 
 	@JsonProperty
-	public void setTestCaseIds(List<String> testCasesIds) {
+	public DeviceConfiguration setTestCaseIds(List<String> testCasesIds) {
 		this.testCaseIds = testCasesIds;
+		return this;
 	}
 
 	@Override

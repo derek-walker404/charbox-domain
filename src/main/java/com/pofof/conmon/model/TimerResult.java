@@ -3,7 +3,7 @@ package com.pofof.conmon.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
-public class TimerResult implements PersistentModel {
+public class TimerResult implements PersistentModel<TimerResult> {
 
 	private String _id = "";
 	private long startTime;
@@ -12,6 +12,9 @@ public class TimerResult implements PersistentModel {
 	private String testCaseId;
 	private boolean outage = false;
 	private String serverIp = "";
+	private MyLocation serverLocation = new MyLocation();
+	private String clientIp = "";
+	private MyLocation clientLocation = new MyLocation();
 	private long size;
 	private double speed;
 	private int deviceId;
@@ -90,6 +93,39 @@ public class TimerResult implements PersistentModel {
 	@JsonProperty
 	public TimerResult setServerIp(String serverIp) {
 		this.serverIp = serverIp;
+		return this;
+	}
+
+	@JsonProperty
+	public MyLocation getServerLocation() {
+		return serverLocation;
+	}
+
+	@JsonProperty
+	public TimerResult setServerLocation(MyLocation serverLocation) {
+		this.serverLocation = serverLocation;
+		return this;
+	}
+
+	@JsonProperty
+	public String getClientIp() {
+		return clientIp;
+	}
+
+	@JsonProperty
+	public TimerResult setClientIp(String clientIp) {
+		this.clientIp = clientIp;
+		return this;
+	}
+
+	@JsonProperty
+	public MyLocation getClientLocation() {
+		return clientLocation;
+	}
+
+	@JsonProperty
+	public TimerResult setClientLocation(MyLocation clientLocation) {
+		this.clientLocation = clientLocation;
 		return this;
 	}
 
