@@ -4,28 +4,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class MyLocation {
 
-	private double lat;
-	private double lon;
+	private String ip;
+	private double[] location = new double[2];
 
 	@JsonProperty
-	public double getLat() {
-		return lat;
+	public String getIp() {
+		return ip;
 	}
 
 	@JsonProperty
-	public MyLocation setLat(double lat) {
-		this.lat = lat;
+	public MyLocation setIp(String ip) {
+		this.ip = ip;
 		return this;
 	}
 
 	@JsonProperty
-	public double getLon() {
-		return lon;
+	public double[] getLocation() {
+		return location;
 	}
 
 	@JsonProperty
+	public MyLocation setLocation(double[] location) {
+		this.location = location;
+		return this;
+	}
+
+	public MyLocation setLat(double lat) {
+		getLocation()[0] = lat;
+		return this;
+	}
+
 	public MyLocation setLon(double lon) {
-		this.lon = lon;
+		getLocation()[1] = lon;
 		return this;
 	}
 }

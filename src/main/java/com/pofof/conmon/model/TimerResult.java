@@ -11,9 +11,7 @@ public class TimerResult implements PersistentModel<TimerResult> {
 	private long pingDuration;
 	private String testCaseId;
 	private boolean outage = false;
-	private String serverIp = "";
 	private MyLocation serverLocation = new MyLocation();
-	private String clientIp = "";
 	private MyLocation clientLocation = new MyLocation();
 	private long size;
 	private double speed;
@@ -86,17 +84,6 @@ public class TimerResult implements PersistentModel<TimerResult> {
 	}
 	
 	@JsonProperty
-	public String getServerIp() {
-		return serverIp;
-	}
-
-	@JsonProperty
-	public TimerResult setServerIp(String serverIp) {
-		this.serverIp = serverIp;
-		return this;
-	}
-
-	@JsonProperty
 	public MyLocation getServerLocation() {
 		return serverLocation;
 	}
@@ -104,17 +91,6 @@ public class TimerResult implements PersistentModel<TimerResult> {
 	@JsonProperty
 	public TimerResult setServerLocation(MyLocation serverLocation) {
 		this.serverLocation = serverLocation;
-		return this;
-	}
-
-	@JsonProperty
-	public String getClientIp() {
-		return clientIp;
-	}
-
-	@JsonProperty
-	public TimerResult setClientIp(String clientIp) {
-		this.clientIp = clientIp;
 		return this;
 	}
 
