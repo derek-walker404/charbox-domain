@@ -1,8 +1,10 @@
 package com.pofof.conmon.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Device implements PersistentModel<Device> {
 
 	private String _id = "";

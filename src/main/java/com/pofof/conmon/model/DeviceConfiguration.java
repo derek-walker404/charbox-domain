@@ -1,17 +1,15 @@
 package com.pofof.conmon.model;
 
-import java.util.Collections;
-import java.util.List;
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tpofof.utils.JsonUtils;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DeviceConfiguration implements PersistentModel<DeviceConfiguration> {
 
 	private String _id = "";
 	private int trialsCount = 3;
 	private int testInterval = 30; // minutes
-	private List<String> testCaseIds = Collections.emptyList();
 
 	@JsonProperty
 	public String get_id() {
@@ -43,17 +41,6 @@ public class DeviceConfiguration implements PersistentModel<DeviceConfiguration>
 	@JsonProperty
 	public DeviceConfiguration setTestInterval(int testInterval) {
 		this.testInterval = testInterval;
-		return this;
-	}
-
-	@JsonProperty
-	public List<String> getTestCaseIds() {
-		return testCaseIds;
-	}
-
-	@JsonProperty
-	public DeviceConfiguration setTestCaseIds(List<String> testCasesIds) {
-		this.testCaseIds = testCasesIds;
 		return this;
 	}
 
