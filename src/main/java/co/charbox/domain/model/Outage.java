@@ -1,4 +1,4 @@
-package com.pofof.conmon.model;
+package co.charbox.domain.model;
 
 import org.joda.time.DateTime;
 

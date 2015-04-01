@@ -1,9 +1,11 @@
-package com.pofof.conmon.mm;
+package co.charbox.domain.mm;
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.google.api.client.util.DateTime;
 import com.google.common.cache.Cache;
@@ -11,7 +13,6 @@ import com.google.common.cache.CacheBuilder;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.InsightsResponse;
-import com.pofof.conmon.model.mm.ConnectionInfoModel;
 import com.tpofof.utils.Config;
 
 public class MaxMindService {
@@ -54,6 +55,7 @@ public class MaxMindService {
 				lastHealthyTime = new DateTime(new Date());
 				lastRequestFailure = false;
 				remainingRequets = insights.getMaxMind().getQueriesRemaining();
+				cache.put(ip, insights);
 			}
 			return insights;
 		} catch (IOException e) {

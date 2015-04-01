@@ -1,4 +1,4 @@
-package com.pofof.conmon.model;
+package co.charbox.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

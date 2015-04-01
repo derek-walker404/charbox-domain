@@ -1,4 +1,4 @@
-package com.pofof.conmon.model;
+package co.charbox.domain.model;
 
 public interface PersistentModel<ModelT> {
 

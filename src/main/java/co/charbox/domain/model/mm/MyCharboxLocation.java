@@ -1,4 +1,4 @@
-package com.pofof.conmon.model.mm;
+package co.charbox.domain.model.mm;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
