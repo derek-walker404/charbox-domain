@@ -2,6 +2,8 @@ package co.charbox.domain.model;
 
 import org.joda.time.DateTime;
 
+import co.charbox.core.data.PersistentModel;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Outage implements PersistentModel<Outage> {

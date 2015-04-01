@@ -5,6 +5,7 @@ import java.net.InetAddress;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import co.charbox.core.utils.Config;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.google.api.client.util.DateTime;
@@ -13,7 +14,6 @@ import com.google.common.cache.CacheBuilder;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.InsightsResponse;
-import com.tpofof.utils.Config;
 
 public class MaxMindService {
 

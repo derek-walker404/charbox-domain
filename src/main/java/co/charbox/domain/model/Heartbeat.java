@@ -1,5 +1,7 @@
 package co.charbox.domain.model;
 
+import co.charbox.core.data.PersistentModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

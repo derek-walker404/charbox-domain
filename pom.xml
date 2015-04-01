@@ -9,8 +9,8 @@
   		<version>2.3.3</version>
   	</dependency>
   	<dependency>
-  		<groupId>com.tpofof</groupId>
-  		<artifactId>tpofof-core</artifactId>
+  		<groupId>co.charbox</groupId>
+  		<artifactId>core</artifactId>
   		<version>0.1.0</version>
   	</dependency>
   	<dependency>
