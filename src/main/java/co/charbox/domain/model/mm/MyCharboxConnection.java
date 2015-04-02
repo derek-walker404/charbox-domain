@@ -8,7 +8,7 @@ public class MyCharboxConnection {
 	private String ip;
 	private boolean anonProxy;
 	private boolean satelliteProvider;
-	private String type = "N/A";
+	private String conType = "N/A";
 	private double expectedSpeed = 50; // Mbps
 
 	@JsonProperty
@@ -56,13 +56,13 @@ public class MyCharboxConnection {
 	}
 
 	@JsonProperty
-	public String getType() {
-		return type;
+	public String getConType() {
+		return conType;
 	}
 
 	@JsonProperty
-	public MyCharboxConnection setType(String type) {
-		this.type = type;
+	public MyCharboxConnection setConType(String type) {
+		this.conType = type;
 		return this;
 	}
 

@@ -6,7 +6,7 @@
   	<dependency>
   		<groupId>com.fasterxml.jackson.core</groupId>
   		<artifactId>jackson-databind</artifactId>
-  		<version>2.3.3</version>
+  		<version>2.5.1</version>
   	</dependency>
   	<dependency>
   		<groupId>co.charbox</groupId>
@@ -22,6 +22,16 @@
   		<groupId>com.maxmind.geoip2</groupId>
   		<artifactId>geoip2</artifactId>
   		<version>2.1.0</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.fasterxml.jackson.core</groupId>
+  		<artifactId>jackson-annotations</artifactId>
+  		<version>2.5.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>com.fasterxml.jackson.core</groupId>
+  		<artifactId>jackson-core</artifactId>
+  		<version>2.5.1</version>
   	</dependency>
   </dependencies>
   <artifactId>domain</artifactId>
