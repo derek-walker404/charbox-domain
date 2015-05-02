@@ -5,7 +5,11 @@ import java.net.InetAddress;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import co.charbox.core.utils.Config;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.google.api.client.util.DateTime;
@@ -14,7 +18,10 @@ import com.google.common.cache.CacheBuilder;
 import com.maxmind.geoip2.WebServiceClient;
 import com.maxmind.geoip2.exception.GeoIp2Exception;
 import com.maxmind.geoip2.model.InsightsResponse;
+import com.tpofof.core.utils.Config;
 
+@Component
+@Scope(BeanDefinition.SCOPE_SINGLETON)
 public class MaxMindService {
 
 	private final int USER_ID;
@@ -28,8 +35,8 @@ public class MaxMindService {
 	
 	private final WebServiceClient client;
 	
-	public MaxMindService() {
-		Config config = Config.get();
+	@Autowired
+	public MaxMindService(Config config) {
 		USER_ID = config.getInt("location.api.userId");
 		this.KEY = config.getString("location.api.key");
 		this.client = new WebServiceClient.Builder(USER_ID, KEY).build();

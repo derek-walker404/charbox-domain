@@ -34,15 +34,4 @@ public class SSTProperties {
 	public static String getDefaultDataChunk() {
 		return DATA_CHUNK_2000;
 	}
-	
-	public static Properties getConfig() {
-		return prop;
-	}
-	
-	public static double calcSpeed(int size, int duration) {
-		double speed = duration <= 0 
-				? -1 
-				: (size * 8.0 / 1048.576 / duration); // do I need to multiple by 8 here? math don't work now. comm bak laytur, da nomburs luk gud doh
-		return speed;
-	}
 }

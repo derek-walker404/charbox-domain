@@ -1,8 +1,10 @@
 package co.charbox.domain.model.mm;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+
 import com.maxmind.geoip2.model.InsightsResponse;
 
+@Data
 public class ConnectionInfoModel {
 	
 	private MyCharboxLocation location;
@@ -11,41 +13,22 @@ public class ConnectionInfoModel {
 	public ConnectionInfoModel() { }
 	
 	public ConnectionInfoModel(InsightsResponse insights) {
-		this.location = new MyCharboxLocation()
-			.setContinent(insights.getContinent().getName())
-			.setCountry(insights.getCountry().getName())
-			.setSubdivision(insights.getMostSpecificSubdivision().getName())
-			.setZip(insights.getPostal().getCode())
-			.setCity(insights.getCity().getName())
-			.setLocation(new double[]{ insights.getLocation().getLatitude(), insights.getLocation().getLongitude() })
-			.setTimeZone(insights.getLocation().getTimeZone());
+		this.location = MyCharboxLocation.builder()
+				.continent(insights.getContinent().getName())
+				.country(insights.getCountry().getName())
+				.subdivision(insights.getMostSpecificSubdivision().getName())
+				.zip(insights.getPostal().getCode())
+				.city(insights.getCity().getName())
+				.location(new double[]{ insights.getLocation().getLatitude(), insights.getLocation().getLongitude() })
+				.timeZone(insights.getLocation().getTimeZone())
+				.build();
+			
 		
-		this.connection = new MyCharboxConnection()
-			.setIp(insights.getTraits().getIpAddress())
-			.setIsp(insights.getTraits().getIsp())
-			.setAnonProxy(insights.getTraits().isAnonymousProxy())
-			.setSatelliteProvider(insights.getTraits().isSatelliteProvider());
-	}
-	
-	@JsonProperty
-	public MyCharboxLocation getLocation() {
-		return location;
-	}
-
-	@JsonProperty
-	public ConnectionInfoModel setLocation(MyCharboxLocation location) {
-		this.location = location;
-		return this;
-	}
-
-	@JsonProperty
-	public MyCharboxConnection getConnection() {
-		return connection;
-	}
-
-	@JsonProperty
-	public ConnectionInfoModel setConnection(MyCharboxConnection connection) {
-		this.connection = connection;
-		return this;
+		this.connection = MyCharboxConnection.builder()
+				.ip(insights.getTraits().getIpAddress())
+				.isp(insights.getTraits().getIsp())
+				.anonProxy(insights.getTraits().isAnonymousProxy())
+				.satelliteProvider(insights.getTraits().isSatelliteProvider())
+				.build();
 	}
 }

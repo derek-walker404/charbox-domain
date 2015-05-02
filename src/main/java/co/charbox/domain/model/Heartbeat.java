@@ -1,47 +1,15 @@
 package co.charbox.domain.model;
 
-import co.charbox.core.data.PersistentModel;
+import lombok.Builder;
+import lombok.Data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tpofof.core.data.IPersistentModel;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Heartbeat implements PersistentModel<Heartbeat> {
+@Data
+@Builder
+public class Heartbeat implements IPersistentModel<Heartbeat, String> {
 
-	private String _id;
+	private String id;
 	private int deviceId;
 	private long time;
-	
-	@JsonProperty
-	public String get_id() {
-		return _id;
-	}
-
-	@JsonProperty
-	public Heartbeat set_id(String id) {
-		this._id = id;
-		return this;
-	}
-
-	@JsonProperty
-	public int getDeviceId() {
-		return deviceId;
-	}
-
-	@JsonProperty
-	public Heartbeat setDeviceId(int deviceId) {
-		this.deviceId = deviceId;
-		return this;
-	}
-
-	@JsonProperty
-	public long getTime() {
-		return time;
-	}
-
-	@JsonProperty
-	public Heartbeat setTime(long time) {
-		this.time = time;
-		return this;
-	}
 }
