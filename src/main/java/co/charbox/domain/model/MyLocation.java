@@ -1,11 +1,12 @@
 package co.charbox.domain.model;
 
 import lombok.Data;
+import lombok.NonNull;
 
 @Data
 public class MyLocation {
 
-	private String ip;
+	@NonNull private String ip;
 	private double[] location = new double[2];
 
 	public MyLocation setLat(double lat) {
