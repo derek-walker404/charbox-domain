@@ -18,4 +18,6 @@ public class Outage implements IPersistentModel<Outage, String> {
 	private String id;
 	private String deviceId;
 	private DateTime outageTime;
+	private long duration;
+	private boolean confirmed = false;
 }

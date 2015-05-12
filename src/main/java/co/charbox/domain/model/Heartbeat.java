@@ -1,5 +1,7 @@
 package co.charbox.domain.model;
 
+import org.joda.time.DateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,5 +17,5 @@ public class Heartbeat implements IPersistentModel<Heartbeat, String> {
 
 	private String id;
 	private String deviceId;
-	private long time;
+	private DateTime time;
 }
