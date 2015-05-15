@@ -19,8 +19,8 @@ public class TimerResult implements IPersistentModel<TimerResult, String> {
 	private long pingDuration;
 	private String testCaseId;
 	private boolean outage = false;
-	private MyLocation serverLocation = new MyLocation("");
-	private MyLocation clientLocation = new MyLocation("");
+	private MyLocation serverLocation = MyLocation.builder().ip("").build();
+	private MyLocation clientLocation = MyLocation.builder().ip("").build();
 	private long size;
 	private double speed;
 	private int deviceId;

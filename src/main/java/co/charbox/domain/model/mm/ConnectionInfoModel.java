@@ -1,16 +1,20 @@
 package co.charbox.domain.model.mm;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import com.maxmind.geoip2.model.InsightsResponse;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ConnectionInfoModel {
 	
 	private MyCharboxLocation location;
 	private MyCharboxConnection connection;
-	
-	public ConnectionInfoModel() { }
 	
 	public ConnectionInfoModel(InsightsResponse insights) {
 		this.location = MyCharboxLocation.builder()

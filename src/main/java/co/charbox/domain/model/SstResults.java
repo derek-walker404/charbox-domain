@@ -1,19 +1,25 @@
-package co.charbox.domain.model.mm;
+package co.charbox.domain.model;
 
+import org.joda.time.DateTime;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import co.charbox.domain.model.MyLocation;
+import lombok.NoArgsConstructor;
+import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.tpofof.core.data.IPersistentModel;
 
 @Data
 @Builder
-public class SSTResults implements IPersistentModel<SSTResults, String> {
+@NoArgsConstructor
+@AllArgsConstructor
+public class SstResults implements IPersistentModel<SstResults, String> {
 
 	private String id;
 	private String deviceId;
-	private String deviceKey;
-	private long testStartTime; 
+	private String deviceToken;
+	private DateTime testStartTime; 
 	private int downloadSize;
 	private int downloadDuration;
 	private double downloadSpeed;
