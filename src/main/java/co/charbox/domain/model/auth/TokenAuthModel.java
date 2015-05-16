@@ -1,5 +1,7 @@
 package co.charbox.domain.model.auth;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,7 +11,9 @@ import lombok.NonNull;
 import org.joda.time.DateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Sets;
 import com.tpofof.core.data.IPersistentModel;
+import com.tpofof.core.security.IAuthModel;
 
 @Data
 @Builder
@@ -32,6 +36,10 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, String>,
 	@JsonIgnore
 	public boolean isAdmin() {
 		return false;
+	}
+	
+	public Set<String> getRoles() {
+		return Sets.newHashSet("TOKEN", getAuthAssetId().toUpperCase(), getServiceId().toUpperCase());
 	}
 
 	@JsonIgnore

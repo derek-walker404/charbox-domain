@@ -1,5 +1,11 @@
 package co.charbox.domain.model.auth;
 
+import java.util.Set;
+
+import org.elasticsearch.common.collect.Sets;
+
+import com.tpofof.core.security.IAuthModel;
+
 public class AdminAuthModel implements IAuthModel {
 
 	public boolean isAdmin() {
@@ -8,6 +14,10 @@ public class AdminAuthModel implements IAuthModel {
 
 	public boolean isActivated() {
 		return true;
+	}
+	
+	public Set<String> getRoles() {
+		return Sets.newHashSet("ADMIN");
 	}
 
 	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {

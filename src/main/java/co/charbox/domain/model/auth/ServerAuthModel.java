@@ -1,13 +1,18 @@
 package co.charbox.domain.model.auth;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.tpofof.core.data.IPersistentModel;
+import java.util.Set;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import org.elasticsearch.common.collect.Sets;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tpofof.core.data.IPersistentModel;
+import com.tpofof.core.security.IAuthModel;
 
 @Data
 @Builder
@@ -24,6 +29,10 @@ public class ServerAuthModel implements IPersistentModel<ServerAuthModel, String
 	@JsonIgnore
 	public boolean isAdmin() {
 		return false;
+	}
+	
+	public Set<String> getRoles() {
+		return Sets.newHashSet("SERVER", getServerId().toUpperCase(), getService().toUpperCase());
 	}
 
 	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {
