@@ -29,6 +29,7 @@ public class DeviceAuthModel implements IPersistentModel<DeviceAuthModel, String
 		return false;
 	}
 	
+	@JsonIgnore
 	public Set<String> getRoles() {
 		return Sets.newHashSet("DEVICE", getDeviceId().toUpperCase());
 	}

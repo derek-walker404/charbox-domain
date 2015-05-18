@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import org.joda.time.DateTime;
 
+import co.charbox.domain.model.mm.ConnectionInfoModel;
+
 import com.tpofof.core.data.IPersistentModel;
 
 @Data
@@ -21,4 +23,5 @@ public class Outage implements IPersistentModel<Outage, String> {
 	private DateTime endTime;
 	private long duration;
 	private boolean confirmed = false;
+	private ConnectionInfoModel connectionInfo;
 }

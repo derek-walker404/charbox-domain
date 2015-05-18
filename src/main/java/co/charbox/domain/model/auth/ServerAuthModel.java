@@ -31,6 +31,7 @@ public class ServerAuthModel implements IPersistentModel<ServerAuthModel, String
 		return false;
 	}
 	
+	@JsonIgnore
 	public Set<String> getRoles() {
 		return Sets.newHashSet("SERVER", getServerId().toUpperCase(), getService().toUpperCase());
 	}

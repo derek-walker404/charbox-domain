@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.elasticsearch.common.collect.Sets;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tpofof.core.security.IAuthModel;
 
 public class AdminAuthModel implements IAuthModel {
@@ -15,7 +16,8 @@ public class AdminAuthModel implements IAuthModel {
 	public boolean isActivated() {
 		return true;
 	}
-	
+
+	@JsonIgnore
 	public Set<String> getRoles() {
 		return Sets.newHashSet("ADMIN");
 	}

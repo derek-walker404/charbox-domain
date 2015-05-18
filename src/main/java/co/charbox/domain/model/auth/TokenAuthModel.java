@@ -38,6 +38,7 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, String>,
 		return false;
 	}
 	
+	@JsonIgnore
 	public Set<String> getRoles() {
 		return Sets.newHashSet("TOKEN", getAuthAssetId().toUpperCase(), getServiceId().toUpperCase());
 	}
