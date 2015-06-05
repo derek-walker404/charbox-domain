@@ -20,10 +20,10 @@ public class SstResults implements IPersistentModel<SstResults, String> {
 	private String deviceId;
 	private String deviceToken;
 	private DateTime testStartTime; 
-	private int downloadSize;
+	private long downloadSize;
 	private int downloadDuration;
 	private double downloadSpeed;
-	private int uploadSize;
+	private long uploadSize;
 	private int uploadDuration;
 	private double uploadSpeed;
 	private int pingDuration;
