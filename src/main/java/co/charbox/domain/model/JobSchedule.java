@@ -61,8 +61,22 @@ public class JobSchedule {
 				.build();
 	}
 	
+	public static JobSchedule newUpgradeJob() {
+		return JobSchedule.builder()
+				.name("job.upgrade.interval")
+				.schedule(CronSchedule.builder()
+						.seconds(Interval.getRandom(0, 60))
+						.minutes(Interval.getRandom(0, 60))
+						.hours(Interval.getAll())
+						.dayOfWeek(Interval.getAll())
+						.dayOfMonth(Interval.getAll())
+						.build()
+						.toString())
+				.build();
+	}
+	
 	public static List<JobSchedule> getAllJobs() {
-		return Lists.newArrayList(newHeartbeatJob(), newPingResultJob(), newSstJob());
+		return Lists.newArrayList(newHeartbeatJob(), newPingResultJob(), newSstJob(), newUpgradeJob());
 	}
 	
 	@Builder
