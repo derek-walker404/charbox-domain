@@ -23,7 +23,7 @@ public class ConnectionInfoModel {
 				.subdivision(insights.getMostSpecificSubdivision().getName())
 				.zip(insights.getPostal().getCode())
 				.city(insights.getCity().getName())
-				.location(new double[]{ insights.getLocation().getLatitude(), insights.getLocation().getLongitude() })
+				.location(new double[]{ insights.getLocation().getLongitude(), insights.getLocation().getLatitude() })
 				.timeZone(insights.getLocation().getTimeZone())
 				.build();
 			
