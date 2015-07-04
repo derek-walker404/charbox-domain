@@ -15,13 +15,14 @@ import com.tpofof.core.data.IPersistentModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Outage implements IPersistentModel<Outage, String> {
+public class OutageModel implements IPersistentModel<OutageModel, Integer> {
 
-	private String id;
-	private String deviceId;
+	private Integer id;
+	private DeviceModel device;
 	private DateTime startTime;
 	private DateTime endTime;
 	private long duration;
 	private boolean confirmed = false;
+	private String type;
 	private ConnectionInfoModel connectionInfo;
 }

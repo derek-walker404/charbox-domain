@@ -17,9 +17,9 @@ import com.tpofof.core.data.IPersistentModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceVersionModel implements IPersistentModel<DeviceVersionModel, String>, Comparable<DeviceVersionModel> {
+public class DeviceVersionModel implements IPersistentModel<DeviceVersionModel, Integer>, Comparable<DeviceVersionModel> {
 
-	private String id;
+	private Integer id;
 	private String version;
 	private Long versionSort;
 	private String installScriptUrl;

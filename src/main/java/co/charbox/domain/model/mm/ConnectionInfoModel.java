@@ -6,33 +6,34 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.maxmind.geoip2.model.InsightsResponse;
+import com.tpofof.core.data.IPersistentModel;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ConnectionInfoModel {
+public class ConnectionInfoModel implements IPersistentModel<ConnectionInfoModel, Integer> {
 	
-	private MyCharboxLocation location;
-	private MyCharboxConnection connection;
+	private Integer id;
+	private LocationModel location;
+	private ConnectionModel connection;
 	
 	public ConnectionInfoModel(InsightsResponse insights) {
-		this.location = MyCharboxLocation.builder()
+		this.location = LocationModel.builder()
 				.continent(insights.getContinent().getName())
 				.country(insights.getCountry().getName())
 				.subdivision(insights.getMostSpecificSubdivision().getName())
 				.zip(insights.getPostal().getCode())
 				.city(insights.getCity().getName())
-				.location(new double[]{ insights.getLocation().getLongitude(), insights.getLocation().getLatitude() })
+				.lat(insights.getLocation().getLatitude())
+				.lon(insights.getLocation().getLongitude())
 				.timeZone(insights.getLocation().getTimeZone())
 				.build();
 			
 		
-		this.connection = MyCharboxConnection.builder()
+		this.connection = ConnectionModel.builder()
 				.ip(insights.getTraits().getIpAddress())
 				.isp(insights.getTraits().getIsp())
-				.anonProxy(insights.getTraits().isAnonymousProxy())
-				.satelliteProvider(insights.getTraits().isSatelliteProvider())
 				.build();
 	}
 }

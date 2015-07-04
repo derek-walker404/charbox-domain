@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
+import co.charbox.domain.model.mm.SimpleLocationModel;
 
 import com.tpofof.core.data.IPersistentModel;
 
@@ -14,12 +15,12 @@ import com.tpofof.core.data.IPersistentModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SstResults implements IPersistentModel<SstResults, String> {
+public class SstResultsModel implements IPersistentModel<SstResultsModel, Integer> {
 
-	private String id;
-	private String deviceId;
+	private Integer id;
+	private DeviceModel device;
 	private String deviceToken;
-	private DateTime testStartTime; 
+	private DateTime startTime; 
 	private long downloadSize;
 	private int downloadDuration;
 	private double downloadSpeed;
@@ -28,5 +29,5 @@ public class SstResults implements IPersistentModel<SstResults, String> {
 	private double uploadSpeed;
 	private int pingDuration;
 	private ConnectionInfoModel deviceInfo;
-	private MyLocation serverLocation;
+	private SimpleLocationModel serverLocation;
 }

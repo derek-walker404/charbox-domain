@@ -11,10 +11,8 @@ import com.tpofof.core.data.IPersistentModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TestCase implements IPersistentModel<TestCase, String> {
+public class DeviceModel implements IPersistentModel<DeviceModel, Integer> {
 
-	private String id;
+	private Integer id;
 	private String name;
-	private String uri;
-	private boolean active = true;
 }

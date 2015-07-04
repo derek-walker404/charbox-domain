@@ -17,12 +17,12 @@ import com.tpofof.core.security.IAuthModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeviceAuthModel implements IPersistentModel<DeviceAuthModel, String>, IAuthModel {
+public class DeviceAuthModel implements IPersistentModel<DeviceAuthModel, Integer>, IAuthModel {
 
-	private String id;
+	private Integer id;
 	private boolean activated;
-	@NonNull private String deviceId;
-	@NonNull private String apiKey;
+	@NonNull private Integer deviceId;
+	@NonNull private String key;
 	
 	@JsonIgnore
 	public boolean isAdmin() {
@@ -31,7 +31,7 @@ public class DeviceAuthModel implements IPersistentModel<DeviceAuthModel, String
 	
 	@JsonIgnore
 	public Set<String> getRoles() {
-		return Sets.newHashSet("DEVICE", getDeviceId().toUpperCase());
+		return Sets.newHashSet("DEVICE", getDeviceId() + "");
 	}
 
 	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {

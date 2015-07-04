@@ -18,13 +18,13 @@ import com.tpofof.core.security.IAuthModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServerAuthModel implements IPersistentModel<ServerAuthModel, String>, IAuthModel {
+public class ServerAuthModel implements IPersistentModel<ServerAuthModel, Integer>, IAuthModel {
 
-	private String id;
+	private Integer id;
 	private boolean activated;
 	@NonNull private String serverId;
-	@NonNull private String serverKey;
-	@NonNull private String service;
+	@NonNull private String serviceName;
+	@NonNull private String key;
 	
 	@JsonIgnore
 	public boolean isAdmin() {
@@ -33,7 +33,7 @@ public class ServerAuthModel implements IPersistentModel<ServerAuthModel, String
 	
 	@JsonIgnore
 	public Set<String> getRoles() {
-		return Sets.newHashSet("SERVER", getServerId().toUpperCase(), getService().toUpperCase());
+		return Sets.newHashSet("SERVER", getServerId(), getServiceName().toUpperCase());
 	}
 
 	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {

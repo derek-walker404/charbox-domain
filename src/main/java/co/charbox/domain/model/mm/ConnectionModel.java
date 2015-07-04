@@ -1,5 +1,7 @@
 package co.charbox.domain.model.mm;
 
+import com.tpofof.core.data.IPersistentModel;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,12 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyCharboxConnection {
+public class ConnectionModel implements IPersistentModel<ConnectionModel, Integer> {
 
+	private Integer id;
 	private String isp;
 	private String ip;
-	private boolean anonProxy;
-	private boolean satelliteProvider;
-	private String conType = "N/A";
-	private double expectedSpeed = 50; // Mbps
+	private double expectedSpeed; // Mbps
 }

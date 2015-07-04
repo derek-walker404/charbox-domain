@@ -19,18 +19,18 @@ import com.tpofof.core.security.IAuthModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenAuthModel implements IPersistentModel<TokenAuthModel, String>, IAuthModel {
+public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>, IAuthModel {
 	
-	private String id;
+	private Integer id;
 	private DateTime expiration;
 	@NonNull private String token;
-	@NonNull private String authAssetId;
-	@NonNull private String serviceId;
+	@NonNull private Integer authAssetId;
+	@NonNull private String serviceName;
 
-	public boolean isValid(String authAssetId, String serviceId) {
+	public boolean isValid(String authAssetId, String serviceName) {
 		return new DateTime().compareTo(getExpiration()) < 0 && 
 				getAuthAssetId().equals(authAssetId) &&
-				getServiceId().equals(serviceId);
+				getServiceName().equals(serviceName);
 	}
 
 	@JsonIgnore
@@ -40,7 +40,7 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, String>,
 	
 	@JsonIgnore
 	public Set<String> getRoles() {
-		return Sets.newHashSet("TOKEN", getAuthAssetId().toUpperCase(), getServiceId().toUpperCase());
+		return Sets.newHashSet("TOKEN", getAuthAssetId() + "", getServiceName().toUpperCase());
 	}
 
 	@JsonIgnore
