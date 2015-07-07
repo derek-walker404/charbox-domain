@@ -5,6 +5,7 @@ import java.util.List;
 import org.elasticsearch.common.collect.Lists;
 import org.jooq.Field;
 import org.jooq.Record;
+import org.jooq.SelectConditionStep;
 import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import co.charbox.domain.model.SstResultsModel;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 import co.charbox.domain.model.mm.SimpleLocationModel;
 
+import com.tpofof.core.data.dao.ResultsSet;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;
 import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
@@ -73,6 +75,12 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 			fields.addAll(daoProvider.getSimpleLocationDAO().getFields());
 		}
 		return fields;
+	}
+
+	public ResultsSet<SstResultsModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+		SelectConditionStep<Record> sql = getBaseQuery().where(sst.DEVICE_ID.eq(deviceId));
+		addSearchMeta(sql, context, false);
+		return convert(sql.fetch(), context);
 	}
 	
 	@Override

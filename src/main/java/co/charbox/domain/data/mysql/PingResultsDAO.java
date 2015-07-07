@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.Record;
+import org.jooq.SelectConditionStep;
 import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +17,17 @@ import co.charbox.domain.data.jooq.tables.Location;
 import co.charbox.domain.data.jooq.tables.Ping;
 import co.charbox.domain.data.jooq.tables.SimpleLocation;
 import co.charbox.domain.data.jooq.tables.records.PingRecord;
-import co.charbox.domain.model.PingResults;
+import co.charbox.domain.model.PingResultModel;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 import co.charbox.domain.model.mm.SimpleLocationModel;
 
 import com.google.common.collect.Lists;
+import com.tpofof.core.data.dao.ResultsSet;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;
 import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
 @Component
-public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResults, Integer, SimpleSearchContext> {
+public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integer, SimpleSearchContext> {
 
 	public static final String ALIAS = "p";
 	
@@ -75,8 +77,14 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResults, Integer, 
 		return fields;
 	}
 	
+	public ResultsSet<PingResultModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+		SelectConditionStep<Record> sql = getBaseQuery().where(p.DEVICE_ID.eq(deviceId));
+		addSearchMeta(sql, context, false);
+		return convert(sql.fetch(), context);
+	}
+	
 	@Override
-	public PingResults insert(PingResults model) {
+	public PingResultModel insert(PingResultModel model) {
 		if (model.getConnectionInfo().getId() == null) {
 			ConnectionInfoModel connInfo = daoProvider.getConnectionInfoDAO().insert(model.getConnectionInfo());
 			if (connInfo == null || connInfo.getId() == null) {
@@ -97,7 +105,7 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResults, Integer, 
 	}
 
 	@Override
-	protected Record convert(PingResults model) {
+	protected Record convert(PingResultModel model) {
 		return new PingRecord(model.getId(), 
 				model.getDevice().getId(), 
 				model.getConnectionInfo().getId(), 
@@ -111,8 +119,8 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResults, Integer, 
 	}
 
 	@Override
-	public PingResults convert(Record rec) {
-		return rec == null ? null : PingResults.builder()
+	public PingResultModel convert(Record rec) {
+		return rec == null ? null : PingResultModel.builder()
 				.avgLatency(rec.getValue(p.AVG_LATENCY))
 				.connectionInfo(daoProvider.getConnectionInfoDAO().convert(rec))
 				.device(daoProvider.getDeviceDAO().convert(rec))

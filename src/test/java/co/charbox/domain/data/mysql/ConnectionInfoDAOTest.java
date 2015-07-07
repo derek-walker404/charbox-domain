@@ -1,6 +1,5 @@
 package co.charbox.domain.data.mysql;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -8,11 +7,9 @@ import org.springframework.stereotype.Component;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.tpofof.core.App;
-import com.tpofof.core.data.dao.context.SearchWindow;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
 
 @Component
-public class ConnectionInfoDAOTest extends AbstractSimpleJooqDaoTest<ConnectionInfoModel, Integer, ConnectionInfoDAO, SimpleSearchContext> {
+public class ConnectionInfoDAOTest extends CharbotSimpleJooqDaoTest<ConnectionInfoModel> {
 
 	@Autowired private static DaoProvider daoProvider;
 	@Autowired private static ConnectionInfoDAO dao;
@@ -29,28 +26,6 @@ public class ConnectionInfoDAOTest extends AbstractSimpleJooqDaoTest<ConnectionI
 		
 		LocationDAOTest.setUpBeforeClass();
 		locDaoTest = App.getContext().getBean(LocationDAOTest.class);
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		dao.truncate();
-		daoProvider.getConnectionDAO().truncate();
-		daoProvider.getLocationDAO().truncate();
-	}
-
-	@Override
-	protected SimpleSearchContext getContext(int limit, int offset) {
-		return SimpleSearchContext.builder()
-				.window(SearchWindow.builder()
-						.limit(limit)
-						.offset(offset)
-						.build())
-				.build();
-	}
-
-	@Override
-	public Integer getRandomPk() {
-		return (int)(Math.random() * 10000000);
 	}
 
 	@Override

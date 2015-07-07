@@ -1,19 +1,25 @@
 package co.charbox.domain.data.mysql;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
+
+import org.elasticsearch.common.collect.Sets;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.DeviceModel;
-import co.charbox.domain.model.PingResults;
+import co.charbox.domain.model.PingResultModel;
 
 import com.tpofof.core.App;
-import com.tpofof.core.data.dao.context.SearchWindow;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
+import com.tpofof.core.data.dao.ResultsSet;
 
 @Component
-public class PingResultsDAOTest extends AbstractSimpleJooqDaoTest<PingResults, Integer, PingResultsDAO, SimpleSearchContext> {
+public class PingResultsDAOTest extends CharbotSimpleJooqDaoTest<PingResultModel> {
 
 	private static DaoProvider daoProvider;
 	private static PingResultsDAO dao;
@@ -26,7 +32,7 @@ public class PingResultsDAOTest extends AbstractSimpleJooqDaoTest<PingResults, I
 		daoProvider = App.getContext().getBean(DaoProvider.class);
 		dao = daoProvider.getPingResultsDAO();
 		
-		device = App.getContext().getBean(DeviceDaoTest.class).getModel(null);
+		device = App.getContext().getBean(DeviceDAOTest.class).getModel(null);
 		device = daoProvider.getDeviceDAO().insert(device);
 		if (device == null || device.getId() == null) {
 			throw new RuntimeException("Cannot insert device to test ping results");
@@ -39,31 +45,11 @@ public class PingResultsDAOTest extends AbstractSimpleJooqDaoTest<PingResults, I
 		slDaoTest = App.getContext().getBean(SimpleLocationDaoTest.class);
 	}
 
-	@Before
-	public void setUp() throws Exception {
-		dao.truncate();
-	}
-
 	@Override
-	protected SimpleSearchContext getContext(int limit, int offset) {
-		return SimpleSearchContext.builder()
-				.window(SearchWindow.builder()
-						.limit(limit)
-						.offset(offset)
-						.build())
-				.build();
-	}
-
-	@Override
-	public Integer getRandomPk() {
-		return (int)(Math.random() * 100000);
-	}
-
-	@Override
-	public PingResults getModel(Integer id) {
+	public PingResultModel getModel(Integer id) {
 		DateTime time = new DateTime();
 		time = time.minusMillis(time.getMillisOfSecond());
-		return PingResults.builder()
+		return PingResultModel.builder()
 				.avgLatency(15.12)
 				.connectionInfo(ciDaoTest.getModel(null))
 				.device(device)
@@ -80,5 +66,59 @@ public class PingResultsDAOTest extends AbstractSimpleJooqDaoTest<PingResults, I
 	@Override
 	protected PingResultsDAO getDao() {
 		return dao;
+	}
+	
+	@Test
+	public void testFindByDeviceIdEmpty() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		assertEquals(0, res.getTotal().intValue());
+		assertEquals(0, res.getResults().size());
+	}
+	
+	@Test
+	public void testFindByDeviceIdSingle() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		PingResultModel expected = getDao().insert(getModel(null));
+		assertNotNull(expected);
+		
+		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
+		assertEquals(1, res.getTotal().intValue());
+		assertEquals(1, res.getResults().size());
+		assertEquals(expected, res.getResults().get(0));
+		
+		getDao().delete(expected.getId());
+		res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
+		assertEquals(0, res.getTotal().intValue());
+		assertEquals(0, res.getResults().size());
+	}
+	
+	@Test
+	public void testFindByDeviceIdMultiple() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		Set<Integer> expectedIds = Sets.newHashSet();
+		for (int i=0;i<10;i++) {
+			PingResultModel expected = getDao().insert(getModel(null));
+			assertNotNull(expected);
+			expectedIds.add(expected.getId());
+		}
+		
+		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		assertEquals(10, res.getTotal().intValue());
+		assertEquals(10, res.getResults().size());
+		Set<Integer> actualIds = Sets.newHashSet();
+		for (PingResultModel m : res.getResults()) {
+			assertNotNull(m);
+			actualIds.add(m.getId());
+		}
+		
+		assertEquals(expectedIds.size(), actualIds.size());
+		String errorMessage = "expected: " + expectedIds + " actual: " + actualIds;
+		for (Integer id : expectedIds) {
+			assertTrue(errorMessage, actualIds.contains(id));
+		}
 	}
 }

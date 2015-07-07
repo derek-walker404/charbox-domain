@@ -1,50 +1,31 @@
 package co.charbox.domain.data.mysql;
 
+import static org.junit.Assert.*;
+
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
+import org.junit.Assert;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.HeartbeatModel;
 
 import com.tpofof.core.App;
-import com.tpofof.core.data.dao.context.SearchWindow;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
 
 @Component
-public class HeartbeatDaoTest extends AbstractSimpleJooqDaoTest<HeartbeatModel, Integer, HeartbeatDAO, SimpleSearchContext> {
+public class HeartbeatDAOTest extends CharbotSimpleJooqDaoTest<HeartbeatModel> {
 
 	private static DaoProvider daoProvider;
 	private static Integer deviceId;
-	private static DeviceDaoTest deviceDaoTest;
+	private static DeviceDAOTest deviceDaoTest;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		daoProvider = App.getContext().getBean(DaoProvider.class);
-		deviceDaoTest = App.getContext().getBean(DeviceDaoTest.class);
+		deviceDaoTest = App.getContext().getBean(DeviceDAOTest.class);
 		deviceId = daoProvider.getDeviceDAO().insert(deviceDaoTest.getModel(null)).getId();
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		daoProvider.getHeartbeatDAO().truncate();
-	}
-
-	@Override
-	protected SimpleSearchContext getContext(int limit, int offset) {
-		return SimpleSearchContext.builder()
-				.window(SearchWindow.builder()
-						.limit(limit)
-						.offset(offset)
-						.build())
-				.build();
-	}
-
-	@Override
-	public Integer getRandomPk() {
-		return (int)(Math.random() * 100000);
 	}
 
 	@Override
@@ -61,5 +42,19 @@ public class HeartbeatDaoTest extends AbstractSimpleJooqDaoTest<HeartbeatModel, 
 	@Override
 	protected HeartbeatDAO getDao() {
 		return daoProvider.getHeartbeatDAO();
+	}
+	
+	@Test
+	public void testFindByDeviceId() {
+		Assert.assertEquals(0, getDao().count(getContext()));
+		
+		HeartbeatModel expected = getDao().insert(getModel(null));
+		assertNotNull(expected);
+		
+		HeartbeatModel actual = getDao().findByDeviceId(expected.getDevice().getId());
+		assertEquals(expected, actual);
+		
+		assertTrue(getDao().delete(expected.getId()));
+		assertNull(getDao().findByDeviceId(expected.getDevice().getId()));
 	}
 }

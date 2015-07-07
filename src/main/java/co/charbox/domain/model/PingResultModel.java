@@ -16,7 +16,7 @@ import com.tpofof.core.data.IPersistentModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PingResults implements IPersistentModel<PingResults, Integer> {
+public class PingResultModel implements IPersistentModel<PingResultModel, Integer> {
 
 	private Integer id;
 	private DeviceModel device;

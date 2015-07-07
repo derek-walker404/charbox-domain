@@ -27,7 +27,7 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>
 	@NonNull private Integer authAssetId;
 	@NonNull private String serviceName;
 
-	public boolean isValid(String authAssetId, String serviceName) {
+	public boolean isValid(Integer authAssetId, String serviceName) {
 		return new DateTime().compareTo(getExpiration()) < 0 && 
 				getAuthAssetId().equals(authAssetId) &&
 				getServiceName().equals(serviceName);

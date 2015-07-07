@@ -1,17 +1,23 @@
 package co.charbox.domain.data.mysql;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
+
+import org.elasticsearch.common.collect.Sets;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 
 import co.charbox.domain.model.DeviceModel;
 import co.charbox.domain.model.SstResultsModel;
 
 import com.tpofof.core.App;
-import com.tpofof.core.data.dao.context.SearchWindow;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
+import com.tpofof.core.data.dao.ResultsSet;
 
-public class SstResultsDAOTest extends AbstractSimpleJooqDaoTest<SstResultsModel, Integer, SstResultsDAO, SimpleSearchContext> {
+public class SstResultsDAOTest extends CharbotSimpleJooqDaoTest<SstResultsModel> {
 
 	private static DaoProvider daoProvider;
 	private static SstResultsDAO dao;
@@ -24,7 +30,7 @@ public class SstResultsDAOTest extends AbstractSimpleJooqDaoTest<SstResultsModel
 		daoProvider = App.getContext().getBean(DaoProvider.class);
 		dao = daoProvider.getSstResultsDAO();
 		
-		device = App.getContext().getBean(DeviceDaoTest.class).getModel(null);
+		device = App.getContext().getBean(DeviceDAOTest.class).getModel(null);
 		device = daoProvider.getDeviceDAO().insert(device);
 		if (device == null || device.getId() == null) {
 			throw new RuntimeException("Cannot insert device to test ping results");
@@ -35,26 +41,6 @@ public class SstResultsDAOTest extends AbstractSimpleJooqDaoTest<SstResultsModel
 		
 		SimpleLocationDaoTest.setUpBeforeClass();;
 		slDaoTest = App.getContext().getBean(SimpleLocationDaoTest.class);
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		dao.truncate();
-	}
-
-	@Override
-	protected SimpleSearchContext getContext(int limit, int offset) {
-		return SimpleSearchContext.builder()
-				.window(SearchWindow.builder()
-						.limit(limit)
-						.offset(offset)
-						.build())
-				.build();
-	}
-
-	@Override
-	public Integer getRandomPk() {
-		return (int)(Math.random() * 100000);
 	}
 
 	@Override
@@ -81,5 +67,59 @@ public class SstResultsDAOTest extends AbstractSimpleJooqDaoTest<SstResultsModel
 	@Override
 	protected SstResultsDAO getDao() {
 		return dao;
+	}
+	
+	@Test
+	public void testFindByDeviceIdEmpty() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		assertEquals(0, res.getTotal().intValue());
+		assertEquals(0, res.getResults().size());
+	}
+	
+	@Test
+	public void testFindByDeviceIdSingle() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		SstResultsModel expected = getDao().insert(getModel(null));
+		assertNotNull(expected);
+		
+		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
+		assertEquals(1, res.getTotal().intValue());
+		assertEquals(1, res.getResults().size());
+		assertEquals(expected, res.getResults().get(0));
+		
+		getDao().delete(expected.getId());
+		res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
+		assertEquals(0, res.getTotal().intValue());
+		assertEquals(0, res.getResults().size());
+	}
+	
+	@Test
+	public void testFindByDeviceIdMultiple() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		Set<Integer> expectedIds = Sets.newHashSet();
+		for (int i=0;i<10;i++) {
+			SstResultsModel expected = getDao().insert(getModel(null));
+			assertNotNull(expected);
+			expectedIds.add(expected.getId());
+		}
+		
+		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		assertEquals(10, res.getTotal().intValue());
+		assertEquals(10, res.getResults().size());
+		Set<Integer> actualIds = Sets.newHashSet();
+		for (SstResultsModel m : res.getResults()) {
+			assertNotNull(m);
+			actualIds.add(m.getId());
+		}
+		
+		assertEquals(expectedIds.size(), actualIds.size());
+		String errorMessage = "expected: " + expectedIds + " actual: " + actualIds;
+		for (Integer id : expectedIds) {
+			assertTrue(errorMessage, actualIds.contains(id));
+		}
 	}
 }

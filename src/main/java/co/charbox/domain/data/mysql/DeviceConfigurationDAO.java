@@ -63,6 +63,20 @@ public class DeviceConfigurationDAO extends AbstractSimpleJooqDAO<DeviceConfigur
 		return db().select(getFields()).from(dc)
 				.join(d).on(d.ID.eq(dc.DEVICE_ID));
 	}
+	
+	public DeviceConfigurationModel findByDeviceId(Integer deviceId) {
+		return convert(getBaseQuery()
+				.where(dc.DEVICE_ID.eq(deviceId))
+				.fetchOne());
+	}
+	
+	public DeviceConfigurationModel updateRegistered(DeviceConfigurationModel model) {
+		db().update(getTable())
+				.set(dc.REGISTERED, safeToByte(model.isRegistered()))
+				.where(dc.ID.eq(model.getId()))
+				.execute();
+		return find(model.getId());
+	}
 
 	@Override
 	protected DeviceConfigsRecord convert(DeviceConfigurationModel model) {
@@ -72,7 +86,7 @@ public class DeviceConfigurationDAO extends AbstractSimpleJooqDAO<DeviceConfigur
 	}
 
 	public DeviceConfigurationModel convert(Record rec) {
-		return DeviceConfigurationModel.builder()
+		return rec == null ? null : DeviceConfigurationModel.builder()
 				.id(rec.getValue(dc.ID))
 				.registered(safeToBoolean(rec.getValue(dc.REGISTERED)))
 				.schedules(json.fromJson(new String(rec.getValue(dc.SCHEDULES)), new TypeReference<Map<String, String>>() { }))

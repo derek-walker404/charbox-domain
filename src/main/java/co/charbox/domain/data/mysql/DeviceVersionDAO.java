@@ -56,7 +56,7 @@ public class DeviceVersionDAO extends AbstractSimpleJooqDAO<DeviceVersionModel, 
 
 	@Override
 	public DeviceVersionModel convert(Record rec) {
-		return DeviceVersionModel.builder()
+		return rec == null ? null : DeviceVersionModel.builder()
 				.id(rec.getValue(v.ID))
 				.installScriptUrl(rec.getValue(v.INSTALL_SCRIPT_URL))
 				.version(rec.getValue(v.VERSION))

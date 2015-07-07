@@ -58,6 +58,10 @@ public class HeartbeatDAO extends AbstractSimpleJooqDAO<HeartbeatModel, Integer,
 		return db().select(fields).from(hb)
 				.join(d).on(d.ID.eq(hb.DEVICE_ID));
 	}
+	
+	public HeartbeatModel findByDeviceId(Integer deviceId) {
+		return convert(getBaseQuery().where(hb.DEVICE_ID.eq(deviceId)).fetchOne());
+	}
 
 	@Override
 	protected Record convert(HeartbeatModel model) {

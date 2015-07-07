@@ -3,7 +3,7 @@
   <groupId>co.charbox</groupId>
   <artifactId>domain</artifactId>
   <name>Charbox Domain</name>
-  <version>0.1.0-SNAPSHOT</version>
+  <version>0.1.1-SNAPSHOT</version>
   <properties>
 	<tpofof-core.version>0.0.3-SNAPSHOT</tpofof-core.version>
   </properties>

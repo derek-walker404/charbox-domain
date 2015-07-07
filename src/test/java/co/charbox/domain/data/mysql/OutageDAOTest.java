@@ -1,19 +1,23 @@
 package co.charbox.domain.data.mysql;
 
+import static org.junit.Assert.*;
+
+import java.util.Set;
+
+import org.elasticsearch.common.collect.Sets;
 import org.joda.time.DateTime;
-import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.DeviceModel;
 import co.charbox.domain.model.OutageModel;
 
 import com.tpofof.core.App;
-import com.tpofof.core.data.dao.context.SearchWindow;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
+import com.tpofof.core.data.dao.ResultsSet;
 
 @Component
-public class OutageDAOTest extends AbstractSimpleJooqDaoTest<OutageModel, Integer, OutageDAO, SimpleSearchContext> {
+public class OutageDAOTest extends CharbotSimpleJooqDaoTest<OutageModel> {
 
 	private static DaoProvider daoProvider;
 	private static OutageDAO dao;
@@ -25,33 +29,13 @@ public class OutageDAOTest extends AbstractSimpleJooqDaoTest<OutageModel, Intege
 		daoProvider = App.getContext().getBean(DaoProvider.class);
 		dao = App.getContext().getBean(OutageDAO.class);
 		
-		DeviceDaoTest.setUpBeforeClass();
-		DeviceDaoTest deviceDaoTest = App.getContext().getBean(DeviceDaoTest.class);
+		DeviceDAOTest.setUpBeforeClass();
+		DeviceDAOTest deviceDaoTest = App.getContext().getBean(DeviceDAOTest.class);
 		device = daoProvider.getDeviceDAO().insert(deviceDaoTest.getModel(null));
 		
 		ConnectionInfoDAOTest.setUpBeforeClass();
 		ciDaoTest = App.getContext().getBean(ConnectionInfoDAOTest.class);
 		
-	}
-
-	@Before
-	public void setUp() throws Exception {
-		dao.truncate();
-	}
-
-	@Override
-	protected SimpleSearchContext getContext(int limit, int offset) {
-		return SimpleSearchContext.builder()
-				.window(SearchWindow.builder()
-						.limit(limit)
-						.offset(offset)
-						.build())
-				.build();
-	}
-
-	@Override
-	public Integer getRandomPk() {
-		return (int)(Math.random() * 100000000);
 	}
 
 	@Override
@@ -73,5 +57,59 @@ public class OutageDAOTest extends AbstractSimpleJooqDaoTest<OutageModel, Intege
 	@Override
 	protected OutageDAO getDao() {
 		return dao;
+	}
+	
+	@Test
+	public void testFindByDeviceIdEmpty() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		ResultsSet<OutageModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		assertEquals(0, res.getTotal().intValue());
+		assertEquals(0, res.getResults().size());
+	}
+	
+	@Test
+	public void testFindByDeviceIdSingle() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		OutageModel expected = getDao().insert(getModel(null));
+		assertNotNull(expected);
+		
+		ResultsSet<OutageModel> res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
+		assertEquals(1, res.getTotal().intValue());
+		assertEquals(1, res.getResults().size());
+		assertEquals(expected, res.getResults().get(0));
+		
+		getDao().delete(expected.getId());
+		res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
+		assertEquals(0, res.getTotal().intValue());
+		assertEquals(0, res.getResults().size());
+	}
+	
+	@Test
+	public void testFindByDeviceIdMultiple() {
+		assertEquals(0, getDao().count(getContext()));
+		
+		Set<Integer> expectedIds = Sets.newHashSet();
+		for (int i=0;i<10;i++) {
+			OutageModel expected = getDao().insert(getModel(null));
+			assertNotNull(expected);
+			expectedIds.add(expected.getId());
+		}
+		
+		ResultsSet<OutageModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		assertEquals(10, res.getTotal().intValue());
+		assertEquals(10, res.getResults().size());
+		Set<Integer> actualIds = Sets.newHashSet();
+		for (OutageModel m : res.getResults()) {
+			assertNotNull(m);
+			actualIds.add(m.getId());
+		}
+		
+		assertEquals(expectedIds.size(), actualIds.size());
+		String errorMessage = "expected: " + expectedIds + " actual: " + actualIds;
+		for (Integer id : expectedIds) {
+			assertTrue(errorMessage, actualIds.contains(id));
+		}
 	}
 }

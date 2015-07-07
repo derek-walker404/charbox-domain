@@ -5,6 +5,7 @@ import java.util.List;
 import org.elasticsearch.common.collect.Lists;
 import org.jooq.Field;
 import org.jooq.Record;
+import org.jooq.SelectConditionStep;
 import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import co.charbox.domain.data.jooq.tables.records.OutageRecord;
 import co.charbox.domain.model.OutageModel;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 
+import com.tpofof.core.data.dao.ResultsSet;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;
 import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
@@ -63,6 +65,21 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 	}
 	
 	@Override
+	protected SelectWhereStep<Record> getBaseQuery() {
+		return db().select(getFields()).from(getTable())
+				.join(d).on(d.ID.eq(o.DEVICE_ID))
+				.join(ci).on(ci.ID.eq(o.CONNECTION_INFO_ID))
+				.join(c).on(c.ID.eq(ci.CONNECTION_ID))
+				.join(loc).on(loc.ID.eq(ci.LOCATION_ID));
+	}
+	
+	public ResultsSet<OutageModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+		SelectConditionStep<Record> sql = getBaseQuery().where(o.DEVICE_ID.eq(deviceId));
+		addSearchMeta(sql, context, false);
+		return convert(sql.fetch(), context);
+	}
+	
+	@Override
 	public OutageModel insert(OutageModel model) {
 		if (model.getConnectionInfo().getId() == null) {
 			ConnectionInfoModel connInfo = daoProvider.getConnectionInfoDAO().insert(model.getConnectionInfo());
@@ -73,15 +90,6 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 			}
 		}
 		return super.insert(model);
-	}
-
-	@Override
-	protected SelectWhereStep<Record> getBaseQuery() {
-		return db().select(getFields()).from(getTable())
-				.join(d).on(d.ID.eq(o.DEVICE_ID))
-				.join(ci).on(ci.ID.eq(o.CONNECTION_INFO_ID))
-				.join(c).on(c.ID.eq(ci.CONNECTION_ID))
-				.join(loc).on(loc.ID.eq(ci.LOCATION_ID));
 	}
 
 	@Override
