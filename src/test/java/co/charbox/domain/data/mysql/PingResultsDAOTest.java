@@ -7,13 +7,12 @@ import static org.junit.Assert.assertTrue;
 import java.util.Set;
 
 import org.elasticsearch.common.collect.Sets;
-import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.stereotype.Component;
 
-import co.charbox.domain.model.DeviceModel;
 import co.charbox.domain.model.PingResultModel;
+import co.charbox.domain.providers.PingResultsModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.ResultsSet;
@@ -21,58 +20,30 @@ import com.tpofof.core.data.dao.ResultsSet;
 @Component
 public class PingResultsDAOTest extends CharbotSimpleJooqDaoTest<PingResultModel> {
 
-	private static DaoProvider daoProvider;
 	private static PingResultsDAO dao;
-	private static DeviceModel device;
-	private static ConnectionInfoDAOTest ciDaoTest;
-	private static SimpleLocationDaoTest slDaoTest;
+	private static PingResultsModelProvider pro;
 	
 	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		daoProvider = App.getContext().getBean(DaoProvider.class);
-		dao = daoProvider.getPingResultsDAO();
-		
-		device = App.getContext().getBean(DeviceDAOTest.class).getModel(null);
-		device = daoProvider.getDeviceDAO().insert(device);
-		if (device == null || device.getId() == null) {
-			throw new RuntimeException("Cannot insert device to test ping results");
-		}
-		
-		ConnectionInfoDAOTest.setUpBeforeClass();
-		ciDaoTest = App.getContext().getBean(ConnectionInfoDAOTest.class);
-		
-		SimpleLocationDaoTest.setUpBeforeClass();;
-		slDaoTest = App.getContext().getBean(SimpleLocationDaoTest.class);
-	}
-
-	@Override
-	public PingResultModel getModel(Integer id) {
-		DateTime time = new DateTime();
-		time = time.minusMillis(time.getMillisOfSecond());
-		return PingResultModel.builder()
-				.avgLatency(15.12)
-				.connectionInfo(ciDaoTest.getModel(null))
-				.device(device)
-				.id(id)
-				.maxLatency(214.34)
-				.minLatency(4.66)
-				.packetLoss(0.0)
-				.serverLocation(slDaoTest.getModel(null))
-				.startTime(time)
-				.uri("https://www.google.com")
-				.build();
+	public static void setUpBeforeClass() {
+		dao = App.getContext().getBean(PingResultsDAO.class);
+		pro = App.getContext().getBean(PingResultsModelProvider.class);
 	}
 
 	@Override
 	protected PingResultsDAO getDao() {
 		return dao;
 	}
+
+	@Override
+	public PingResultsModelProvider getProvider() {
+		return pro;
+	}
 	
 	@Test
 	public void testFindByDeviceIdEmpty() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), getProvider().getDevice().getId());
 		assertEquals(0, res.getTotal().intValue());
 		assertEquals(0, res.getResults().size());
 	}
@@ -81,7 +52,7 @@ public class PingResultsDAOTest extends CharbotSimpleJooqDaoTest<PingResultModel
 	public void testFindByDeviceIdSingle() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		PingResultModel expected = getDao().insert(getModel(null));
+		PingResultModel expected = getDao().insert(getProvider().getModel(null));
 		assertNotNull(expected);
 		
 		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
@@ -101,12 +72,12 @@ public class PingResultsDAOTest extends CharbotSimpleJooqDaoTest<PingResultModel
 		
 		Set<Integer> expectedIds = Sets.newHashSet();
 		for (int i=0;i<10;i++) {
-			PingResultModel expected = getDao().insert(getModel(null));
+			PingResultModel expected = getDao().insert(getProvider().getModel(null));
 			assertNotNull(expected);
 			expectedIds.add(expected.getId());
 		}
 		
-		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		ResultsSet<PingResultModel> res = getDao().findByDeviceId(getContext(), getProvider().getDevice().getId());
 		assertEquals(10, res.getTotal().intValue());
 		assertEquals(10, res.getResults().size());
 		Set<Integer> actualIds = Sets.newHashSet();

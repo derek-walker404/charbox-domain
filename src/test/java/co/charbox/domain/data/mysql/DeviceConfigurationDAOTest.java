@@ -1,47 +1,28 @@
 package co.charbox.domain.data.mysql;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import co.charbox.domain.model.DeviceConfigurationModel;
-import co.charbox.domain.model.DeviceModel;
-import co.charbox.domain.model.DeviceVersionModel;
+import co.charbox.domain.providers.DeviceConfigurationModelProvider;
 
-import com.google.common.collect.Maps;
 import com.tpofof.core.App;
+import com.tpofof.core.data.dao.test.IModelProvider;
 
 public class DeviceConfigurationDAOTest extends CharbotSimpleJooqDaoTest<DeviceConfigurationModel> {
 
 	private static DeviceConfigurationDAO dao;
-	private static DeviceDAOTest deviceTest;
-	private static DeviceDAO deviceDao;
-	private static DeviceVersionModel version;
+	private static DeviceConfigurationModelProvider pro;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		dao = App.getContext().getBean(DeviceConfigurationDAO.class);
-		
-		DeviceDAOTest.setUpBeforeClass();
-		deviceTest = App.getContext().getBean(DeviceDAOTest.class);
-		deviceDao = App.getContext().getBean(DeviceDAO.class);
-		
-		DeviceVersionDAOTest verTest = App.getContext().getBean(DeviceVersionDAOTest.class);
-		version = App.getContext().getBean(DeviceVersionDAO.class)
-				.insert(verTest.getModel(null));
-	}
-
-	@Override
-	public DeviceConfigurationModel getModel(Integer id) {
-		DeviceModel device = deviceDao.insert(deviceTest.getModel(null));
-		return DeviceConfigurationModel.builder()
-				.device(device)
-				.id(id)
-				.registered(true)
-				.schedules(Maps.<String, String>newHashMap())
-				.version(version.getId())
-				.build();
+		pro = App.getContext().getBean(DeviceConfigurationModelProvider.class);
 	}
 
 	@Override
@@ -49,11 +30,16 @@ public class DeviceConfigurationDAOTest extends CharbotSimpleJooqDaoTest<DeviceC
 		return dao;
 	}
 	
+	@Override
+	public IModelProvider<DeviceConfigurationModel, Integer> getProvider() {
+		return pro;
+	}
+	
 	@Test
 	public void testFindByDeviceId() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		DeviceConfigurationModel expected = getDao().insert(getModel(null));
+		DeviceConfigurationModel expected = getDao().insert(getProvider().getModel(null));
 		assertNotNull(expected);
 		
 		DeviceConfigurationModel actual = getDao().findByDeviceId(expected.getDevice().getId());
@@ -67,7 +53,7 @@ public class DeviceConfigurationDAOTest extends CharbotSimpleJooqDaoTest<DeviceC
 	public void testUpdateRegistered() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		DeviceConfigurationModel expected = getDao().insert(getModel(null));
+		DeviceConfigurationModel expected = getDao().insert(getProvider().getModel(null));
 		assertNotNull(expected);
 		
 		boolean registered = expected.isRegistered();

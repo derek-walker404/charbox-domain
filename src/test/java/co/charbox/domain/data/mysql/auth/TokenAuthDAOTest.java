@@ -5,35 +5,25 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import co.charbox.domain.data.mysql.CharbotSimpleJooqDaoTest;
 import co.charbox.domain.model.auth.TokenAuthModel;
+import co.charbox.domain.providers.TokenAuthModelProvider;
 
 import com.tpofof.core.App;
+import com.tpofof.core.data.dao.test.IModelProvider;
 
 public class TokenAuthDAOTest extends CharbotSimpleJooqDaoTest<TokenAuthModel> {
 
 	private static TokenAuthDAO dao;
+	private static TokenAuthModelProvider pro;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		dao = App.getContext().getBean(TokenAuthDAO.class);
-	}
-
-	@Override
-	public TokenAuthModel getModel(Integer id) {
-		DateTime time = new DateTime();
-		time = time.minusMillis(time.getMillisOfSecond());
-		return TokenAuthModel.builder()
-				.authAssetId(-1)
-				.expiration(time)
-				.id(id)
-				.serviceName("sso")
-				.token("token1234")
-				.build();
+		pro = App.getContext().getBean(TokenAuthModelProvider.class);
 	}
 
 	@Override
@@ -41,11 +31,16 @@ public class TokenAuthDAOTest extends CharbotSimpleJooqDaoTest<TokenAuthModel> {
 		return dao;
 	}
 	
+	@Override
+	public IModelProvider<TokenAuthModel, Integer> getProvider() {
+		return pro;
+	}
+	
 	@Test
 	public void testValidateAuth() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		TokenAuthModel expected = getDao().insert(getModel(null));
+		TokenAuthModel expected = getDao().insert(getProvider().getModel(null));
 		assertNotNull(expected);
 		
 		TokenAuthModel searchModel = TokenAuthModel.builder()

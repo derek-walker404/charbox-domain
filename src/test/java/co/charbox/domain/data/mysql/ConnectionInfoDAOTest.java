@@ -1,45 +1,34 @@
 package co.charbox.domain.data.mysql;
 
 import org.junit.BeforeClass;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.mm.ConnectionInfoModel;
+import co.charbox.domain.providers.ConnectionInfoModelProvider;
 
 import com.tpofof.core.App;
+import com.tpofof.core.data.dao.test.IModelProvider;
 
 @Component
 public class ConnectionInfoDAOTest extends CharbotSimpleJooqDaoTest<ConnectionInfoModel> {
 
-	@Autowired private static DaoProvider daoProvider;
-	@Autowired private static ConnectionInfoDAO dao;
-	@Autowired private static ConnectionDAOTest connDaoTest;
-	@Autowired private static LocationDAOTest locDaoTest;
+	private static ConnectionInfoDAO dao;
+	private static ConnectionInfoModelProvider pro;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		daoProvider = App.getContext().getBean(DaoProvider.class);
-		dao = daoProvider.getConnectionInfoDAO();
-		
-		ConnectionDAOTest.setUpBeforeClass();
-		connDaoTest = App.getContext().getBean(ConnectionDAOTest.class);
-		
-		LocationDAOTest.setUpBeforeClass();
-		locDaoTest = App.getContext().getBean(LocationDAOTest.class);
-	}
-
-	@Override
-	public ConnectionInfoModel getModel(Integer id) {
-		return ConnectionInfoModel.builder()
-				.id(id)
-				.connection(connDaoTest.getModel(null))
-				.location(locDaoTest.getModel(null))
-				.build();
+		dao = App.getContext().getBean(ConnectionInfoDAO.class);
+		pro = App.getContext().getBean(ConnectionInfoModelProvider.class);
 	}
 
 	@Override
 	protected ConnectionInfoDAO getDao() {
 		return dao;
+	}
+
+	@Override
+	public IModelProvider<ConnectionInfoModel, Integer> getProvider() {
+		return pro;
 	}
 
 }

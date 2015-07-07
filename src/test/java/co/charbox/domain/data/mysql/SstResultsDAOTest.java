@@ -7,61 +7,24 @@ import static org.junit.Assert.assertTrue;
 import java.util.Set;
 
 import org.elasticsearch.common.collect.Sets;
-import org.joda.time.DateTime;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import co.charbox.domain.model.DeviceModel;
 import co.charbox.domain.model.SstResultsModel;
+import co.charbox.domain.providers.SstResultsModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.ResultsSet;
 
 public class SstResultsDAOTest extends CharbotSimpleJooqDaoTest<SstResultsModel> {
 
-	private static DaoProvider daoProvider;
 	private static SstResultsDAO dao;
-	private static DeviceModel device;
-	private static ConnectionInfoDAOTest ciDaoTest;
-	private static SimpleLocationDaoTest slDaoTest;
+	private static SstResultsModelProvider pro;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		daoProvider = App.getContext().getBean(DaoProvider.class);
-		dao = daoProvider.getSstResultsDAO();
-		
-		device = App.getContext().getBean(DeviceDAOTest.class).getModel(null);
-		device = daoProvider.getDeviceDAO().insert(device);
-		if (device == null || device.getId() == null) {
-			throw new RuntimeException("Cannot insert device to test ping results");
-		}
-		
-		ConnectionInfoDAOTest.setUpBeforeClass();
-		ciDaoTest = App.getContext().getBean(ConnectionInfoDAOTest.class);
-		
-		SimpleLocationDaoTest.setUpBeforeClass();;
-		slDaoTest = App.getContext().getBean(SimpleLocationDaoTest.class);
-	}
-
-	@Override
-	public SstResultsModel getModel(Integer id) {
-		DateTime time = new DateTime();
-		time = time.minusMillis(time.getMillisOfSecond());
-		return SstResultsModel.builder()
-				.device(device)
-				.deviceInfo(ciDaoTest.getModel(null))
-				.deviceToken("ASDGSDFHG%ERG!#$$FQERG!#QFQ")
-				.downloadDuration(3001)
-				.downloadSize(87567653425L)
-				.downloadSpeed(56.234)
-				.id(id)
-				.pingDuration(28)
-				.serverLocation(slDaoTest.getModel(null))
-				.startTime(time)
-				.uploadDuration(3002)
-				.uploadSize(34524323466L)
-				.uploadSpeed(12.544)
-				.build();
+		dao = App.getContext().getBean(SstResultsDAO.class);
+		pro = App.getContext().getBean(SstResultsModelProvider.class);
 	}
 
 	@Override
@@ -69,11 +32,16 @@ public class SstResultsDAOTest extends CharbotSimpleJooqDaoTest<SstResultsModel>
 		return dao;
 	}
 	
+	@Override
+	public SstResultsModelProvider getProvider() {
+		return pro;
+	}
+	
 	@Test
 	public void testFindByDeviceIdEmpty() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), getProvider().getDevice().getId());
 		assertEquals(0, res.getTotal().intValue());
 		assertEquals(0, res.getResults().size());
 	}
@@ -82,7 +50,7 @@ public class SstResultsDAOTest extends CharbotSimpleJooqDaoTest<SstResultsModel>
 	public void testFindByDeviceIdSingle() {
 		assertEquals(0, getDao().count(getContext()));
 		
-		SstResultsModel expected = getDao().insert(getModel(null));
+		SstResultsModel expected = getDao().insert(getProvider().getModel(null));
 		assertNotNull(expected);
 		
 		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
@@ -102,12 +70,12 @@ public class SstResultsDAOTest extends CharbotSimpleJooqDaoTest<SstResultsModel>
 		
 		Set<Integer> expectedIds = Sets.newHashSet();
 		for (int i=0;i<10;i++) {
-			SstResultsModel expected = getDao().insert(getModel(null));
+			SstResultsModel expected = getDao().insert(getProvider().getModel(null));
 			assertNotNull(expected);
 			expectedIds.add(expected.getId());
 		}
 		
-		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), device.getId());
+		ResultsSet<SstResultsModel> res = getDao().findByDeviceId(getContext(), getProvider().getDevice().getId());
 		assertEquals(10, res.getTotal().intValue());
 		assertEquals(10, res.getResults().size());
 		Set<Integer> actualIds = Sets.newHashSet();
