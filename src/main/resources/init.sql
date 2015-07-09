@@ -42,6 +42,8 @@ CREATE TABLE IF NOT EXISTS `device_auth` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+INSERT INTO device_auth (`id`, `device_id`, `key`, `activated`) VALUES (1, 1, 'asdf1234', 1);
+INSERT INTO device_auth (`id`, `device_id`, `key`, `activated`) VALUES (2, 2, 'asdf1234', 1);
 
 -- -----------------------------------------------------
 -- Table `device_configs`
@@ -58,6 +60,9 @@ CREATE TABLE IF NOT EXISTS `device_configs` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+INSERT INTO device_configs (`id`, `device_id`, `version`, `registered`, `schedules`) VALUES (1, 1, 1, 0, '{}');
+INSERT INTO device_configs (`id`, `device_id`, `version`, `registered`, `schedules`) VALUES (2, 2, 1, 0, '{}');
+
 
 -- -----------------------------------------------------
 -- Table `devices`
@@ -69,6 +74,9 @@ CREATE TABLE IF NOT EXISTS `devices` (
   INDEX `idx_name` (`name` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
+INSERT INTO devices (`id`, `name`) values (1, 'test-dev-1');
+INSERT INTO devices (`id`, `name`) values (2, 'test-dev-2');
 
 
 -- -----------------------------------------------------
@@ -161,6 +169,8 @@ CREATE TABLE IF NOT EXISTS `server_auth` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
+INSERT INTO server_auth (`id`, `server_id`, `service_name`, `key`, `activated`) VALUES (1, 'test-sst-00', 'sst', 'asdf123', 1);
+
 
 -- -----------------------------------------------------
 -- Table `simple_location`
@@ -233,3 +243,5 @@ CREATE TABLE IF NOT EXISTS `versions` (
   INDEX `idx_version` (`version` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
+INSERT INTO versions (`id`, `version`, `sort`, `install_script_url`) VALUES (1, '0.0.0', 4, '');
