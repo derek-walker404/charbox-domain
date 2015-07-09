@@ -1,4 +1,4 @@
-package co.charbox.domain.providers;
+package co.charbox.domain.model.test;
 
 import com.tpofof.core.data.IPersistentModel;
 import com.tpofof.core.data.dao.test.IModelProvider;

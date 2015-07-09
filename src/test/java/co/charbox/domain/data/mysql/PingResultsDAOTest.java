@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.PingResultModel;
-import co.charbox.domain.providers.PingResultsModelProvider;
+import co.charbox.domain.model.test.PingResultsModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.ResultsSet;

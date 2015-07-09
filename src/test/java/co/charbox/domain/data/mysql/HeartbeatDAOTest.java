@@ -11,7 +11,7 @@ import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.HeartbeatModel;
-import co.charbox.domain.providers.HeartbeatModelProvider;
+import co.charbox.domain.model.test.HeartbeatModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.test.IModelProvider;

@@ -106,7 +106,7 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 	
 	@Override
 	protected Record convert(SstResultsModel model) {
-		return new SstRecord(model.getId(),
+		return model == null ? null : new SstRecord(model.getId(),
 				model.getDevice().getId(), 
 				model.getDeviceToken(), 
 				safe(model.getStartTime()), 

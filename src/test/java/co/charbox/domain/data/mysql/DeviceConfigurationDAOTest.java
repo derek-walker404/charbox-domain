@@ -9,7 +9,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import co.charbox.domain.model.DeviceConfigurationModel;
-import co.charbox.domain.providers.DeviceConfigurationModelProvider;
+import co.charbox.domain.model.test.DeviceConfigurationModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.test.IModelProvider;

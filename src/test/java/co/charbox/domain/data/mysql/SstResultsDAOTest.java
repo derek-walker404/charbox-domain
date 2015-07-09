@@ -11,7 +11,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import co.charbox.domain.model.SstResultsModel;
-import co.charbox.domain.providers.SstResultsModelProvider;
+import co.charbox.domain.model.test.SstResultsModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.ResultsSet;

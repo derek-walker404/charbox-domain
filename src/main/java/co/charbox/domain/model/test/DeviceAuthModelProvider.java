@@ -1,4 +1,4 @@
-package co.charbox.domain.providers;
+package co.charbox.domain.model.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

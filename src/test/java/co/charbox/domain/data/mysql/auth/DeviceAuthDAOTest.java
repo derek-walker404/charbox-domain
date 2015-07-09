@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import co.charbox.domain.data.mysql.CharbotSimpleJooqDaoTest;
 import co.charbox.domain.model.auth.DeviceAuthModel;
-import co.charbox.domain.providers.DeviceAuthModelProvider;
+import co.charbox.domain.model.test.DeviceAuthModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.test.IModelProvider;

@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.mm.SimpleLocationModel;
-import co.charbox.domain.providers.SimpleLocationModelProvider;
+import co.charbox.domain.model.test.SimpleLocationModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.test.IModelProvider;

@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.DeviceVersionModel;
-import co.charbox.domain.providers.DeviceVersionModelProvider;
+import co.charbox.domain.model.test.DeviceVersionModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;

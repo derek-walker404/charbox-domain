@@ -1,4 +1,4 @@
-package co.charbox.domain.providers;
+package co.charbox.domain.model.test;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,32 +6,29 @@ import org.springframework.stereotype.Component;
 
 import co.charbox.domain.data.mysql.DeviceDAO;
 import co.charbox.domain.model.DeviceModel;
-import co.charbox.domain.model.PingResultModel;
+import co.charbox.domain.model.OutageModel;
 
 @Component
-public class PingResultsModelProvider implements CharbotModelProvider<PingResultModel> {
+public class OutageModelProvider implements CharbotModelProvider<OutageModel> {
 
 	private DeviceModel device;
 	@Autowired private DeviceDAO deviceDao;
 	@Autowired private DeviceModelProvider devicePro;
 	@Autowired private ConnectionInfoModelProvider ciPro;
-	@Autowired private SimpleLocationModelProvider slPro;
 	
 	@Override
-	public PingResultModel getModel(Integer id) {
+	public OutageModel getModel(Integer id) {
 		DateTime time = new DateTime();
 		time = time.minusMillis(time.getMillisOfSecond());
-		return PingResultModel.builder()
-				.avgLatency(15.12)
+		return OutageModel.builder()
+				.confirmed(false)
 				.connectionInfo(ciPro.getModel(null))
 				.device(getDevice())
+				.duration(10)
+				.endTime(time)
 				.id(id)
-				.maxLatency(214.34)
-				.minLatency(4.66)
-				.packetLoss(0.0)
-				.serverLocation(slPro.getModel(null))
 				.startTime(time)
-				.uri("https://www.google.com")
+				.type("unknown")
 				.build();
 	}
 	

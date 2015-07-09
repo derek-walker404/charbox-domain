@@ -1,4 +1,4 @@
-package co.charbox.domain.providers;
+package co.charbox.domain.model.test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,11 +16,12 @@ public class DeviceConfigurationModelProvider implements CharbotModelProvider<De
 
 	@Autowired private DeviceDAO deviceDao;
 	@Autowired private DeviceModelProvider devicePro;
+	@Autowired private DeviceVersionDAO verDao;
+	@Autowired private DeviceVersionModelProvider verPro;
 	private DeviceVersionModel version;
 	
 	@Autowired
 	public DeviceConfigurationModelProvider(DeviceVersionDAO verDao, DeviceVersionModelProvider verPro) {
-		version = verDao.insert(verPro.getModel(null));
 	}
 	
 	@Override
@@ -31,7 +32,14 @@ public class DeviceConfigurationModelProvider implements CharbotModelProvider<De
 				.id(id)
 				.registered(true)
 				.schedules(Maps.<String, String>newHashMap())
-				.version(version.getId())
+				.version(getDeviceVersion().getId())
 				.build();
+	}
+	
+	public DeviceVersionModel getDeviceVersion() {
+		if (version == null) {
+			version = verDao.insert(verPro.getModel(null));
+		}
+		return version;
 	}
 }

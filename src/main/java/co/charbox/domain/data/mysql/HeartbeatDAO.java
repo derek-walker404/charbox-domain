@@ -76,4 +76,12 @@ public class HeartbeatDAO extends AbstractSimpleJooqDAO<HeartbeatModel, Integer,
 				.device(daoProvider.getDeviceDAO().convert(rec))
 				.build();
 	}
+
+	public HeartbeatModel updateTime(HeartbeatModel model) {
+		db().update(getTable())
+				.set(hb.TIME, safe(model.getTime()))
+				.where(hb.ID.eq(model.getId()))
+				.execute();
+		return find(model.getId());
+	}
 }

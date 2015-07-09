@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.DeviceModel;
 import co.charbox.domain.model.OutageModel;
-import co.charbox.domain.providers.OutageModelProvider;
+import co.charbox.domain.model.test.OutageModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.ResultsSet;

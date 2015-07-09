@@ -1,4 +1,4 @@
-package co.charbox.domain.providers;
+package co.charbox.domain.model.test;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 
 import co.charbox.domain.data.mysql.DeviceDAO;
 import co.charbox.domain.model.DeviceModel;
-import co.charbox.domain.model.SstResultsModel;
+import co.charbox.domain.model.PingResultModel;
 
 @Component
-public class SstResultsModelProvider implements CharbotModelProvider<SstResultsModel> {
+public class PingResultsModelProvider implements CharbotModelProvider<PingResultModel> {
 
 	private DeviceModel device;
 	@Autowired private DeviceDAO deviceDao;
@@ -18,23 +18,20 @@ public class SstResultsModelProvider implements CharbotModelProvider<SstResultsM
 	@Autowired private SimpleLocationModelProvider slPro;
 	
 	@Override
-	public SstResultsModel getModel(Integer id) {
+	public PingResultModel getModel(Integer id) {
 		DateTime time = new DateTime();
 		time = time.minusMillis(time.getMillisOfSecond());
-		return SstResultsModel.builder()
-				.device(device)
-				.deviceInfo(ciPro.getModel(null))
-				.deviceToken("ASDGSDFHG%ERG!#$$FQERG!#QFQ")
-				.downloadDuration(3001)
-				.downloadSize(87567653425L)
-				.downloadSpeed(56.234)
+		return PingResultModel.builder()
+				.avgLatency(15.12)
+				.connectionInfo(ciPro.getModel(null))
+				.device(getDevice())
 				.id(id)
-				.pingDuration(28)
+				.maxLatency(214.34)
+				.minLatency(4.66)
+				.packetLoss(0.0)
 				.serverLocation(slPro.getModel(null))
 				.startTime(time)
-				.uploadDuration(3002)
-				.uploadSize(34524323466L)
-				.uploadSpeed(12.544)
+				.uri("https://www.google.com")
 				.build();
 	}
 	

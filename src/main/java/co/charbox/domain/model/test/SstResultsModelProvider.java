@@ -1,4 +1,4 @@
-package co.charbox.domain.providers;
+package co.charbox.domain.model.test;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,29 +6,35 @@ import org.springframework.stereotype.Component;
 
 import co.charbox.domain.data.mysql.DeviceDAO;
 import co.charbox.domain.model.DeviceModel;
-import co.charbox.domain.model.OutageModel;
+import co.charbox.domain.model.SstResultsModel;
 
 @Component
-public class OutageModelProvider implements CharbotModelProvider<OutageModel> {
+public class SstResultsModelProvider implements CharbotModelProvider<SstResultsModel> {
 
 	private DeviceModel device;
 	@Autowired private DeviceDAO deviceDao;
 	@Autowired private DeviceModelProvider devicePro;
 	@Autowired private ConnectionInfoModelProvider ciPro;
+	@Autowired private SimpleLocationModelProvider slPro;
 	
 	@Override
-	public OutageModel getModel(Integer id) {
+	public SstResultsModel getModel(Integer id) {
 		DateTime time = new DateTime();
 		time = time.minusMillis(time.getMillisOfSecond());
-		return OutageModel.builder()
-				.confirmed(false)
-				.connectionInfo(ciPro.getModel(null))
+		return SstResultsModel.builder()
 				.device(getDevice())
-				.duration(10)
-				.endTime(time)
+				.deviceInfo(ciPro.getModel(null))
+				.deviceToken("ASDGSDFHG%ERG!#$$FQERG!#QFQ")
+				.downloadDuration(3001)
+				.downloadSize(87567653425L)
+				.downloadSpeed(56.234)
 				.id(id)
+				.pingDuration(28)
+				.serverLocation(slPro.getModel(null))
 				.startTime(time)
-				.type("unknown")
+				.uploadDuration(3002)
+				.uploadSize(34524323466L)
+				.uploadSpeed(12.544)
 				.build();
 	}
 	

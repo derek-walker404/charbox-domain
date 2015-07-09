@@ -4,7 +4,7 @@ import org.junit.BeforeClass;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.model.mm.ConnectionInfoModel;
-import co.charbox.domain.providers.ConnectionInfoModelProvider;
+import co.charbox.domain.model.test.ConnectionInfoModelProvider;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.dao.test.IModelProvider;
