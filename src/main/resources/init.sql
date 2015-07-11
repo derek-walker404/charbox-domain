@@ -170,6 +170,7 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
 
 INSERT INTO server_auth (`id`, `server_id`, `service_name`, `key`, `activated`) VALUES (1, 'test-sst-00', 'sst', 'asdf123', 1);
+INSERT INTO server_auth (`id`, `server_id`, `service_name`, `key`, `activated`) VALUES (2, 'client-installer-charbot', 'install', '4wt589jhergfh3', 1);
 
 
 -- -----------------------------------------------------
