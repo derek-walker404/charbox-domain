@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.Record;
+import org.jooq.SelectConditionStep;
 import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,13 @@ public class ConnectionInfoDAO extends AbstractSimpleJooqDAO<ConnectionInfoModel
 			}
 		}
 		return super.insert(model);
+	}
+	
+	public ConnectionInfoModel find(String ip, Double lat, Double lon) {
+		SelectConditionStep<Record> sql = getBaseQuery().where(c.IP.eq(ip)
+				.and(loc.LAT.eq(lat))
+				.and(loc.LON.eq(lon)));
+		return convert(sql.fetchOne());
 	}
 
 	@Override

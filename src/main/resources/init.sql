@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `heartbeat` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `device_id` INT(11) NOT NULL,
   `time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `ci_id` INT(11) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_did` (`device_id` ASC),
   INDEX `idx_time_sorta` (`time` ASC))
