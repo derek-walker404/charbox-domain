@@ -1,6 +1,7 @@
 package co.charbox.domain.data.mysql;
 
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.common.collect.Lists;
 import org.jooq.Field;
@@ -20,6 +21,7 @@ import co.charbox.domain.data.jooq.tables.records.OutageRecord;
 import co.charbox.domain.model.OutageModel;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 
+import com.google.api.client.util.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;
 import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
@@ -38,6 +40,7 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 	private final Location loc = Location.LOCATION.as("loc");
 	
 	private List<Field<?>> fields;
+	private Map<String, String> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -62,6 +65,16 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 			fields.addAll(daoProvider.getConnectionInfoDAO().getFields());
 		}
 		return fields;
+	}
+	
+	@Override
+	protected Map<String, String> getSortMapping() {
+		if (sortMapping == null) {
+			sortMapping = Maps.newHashMap();
+			sortMapping.put("startTime", o.START_TIME.getName());
+			sortMapping.put("duration", o.DURATION.getName());
+		}
+		return sortMapping;
 	}
 	
 	@Override
