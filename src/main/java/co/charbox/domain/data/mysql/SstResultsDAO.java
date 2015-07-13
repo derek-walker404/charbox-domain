@@ -1,6 +1,7 @@
 package co.charbox.domain.data.mysql;
 
 import java.util.List;
+import java.util.Map;
 
 import org.elasticsearch.common.collect.Lists;
 import org.jooq.Field;
@@ -22,6 +23,7 @@ import co.charbox.domain.model.SstResultsModel;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 import co.charbox.domain.model.mm.SimpleLocationModel;
 
+import com.google.common.collect.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;
 import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
@@ -40,6 +42,7 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 	
 	@Autowired private DaoProvider daoProvider;
 	private List<Field<?>> fields;
+	private Map<String, String> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -54,6 +57,18 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 	@Override
 	protected Field<Integer> getPk() {
 		return sst.ID;
+	}
+	
+	@Override
+	public Map<String, String> getSortMapping() {
+		if (sortMapping == null) {
+			sortMapping = Maps.newHashMap();
+			sortMapping.put("startTime", sst.START_TIME.getName());
+			sortMapping.put("downloadSpeed", sst.DOWN_SPEED.getName());
+			sortMapping.put("uploadSpeed", sst.UP_SPEED.getName());
+			sortMapping.put("pingDuration", sst.PING_DURATION.getName());
+		}
+		return sortMapping;
 	}
 
 	@Override

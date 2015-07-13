@@ -1,6 +1,7 @@
 package co.charbox.domain.data.mysql;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jooq.Field;
 import org.jooq.Record;
@@ -22,6 +23,7 @@ import co.charbox.domain.model.mm.ConnectionInfoModel;
 import co.charbox.domain.model.mm.SimpleLocationModel;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
 import com.tpofof.core.data.dao.context.SimpleSearchContext;
 import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
@@ -40,6 +42,7 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integ
 
 	@Autowired private DaoProvider daoProvider;
 	private List<Field<?>> fields;
+	private Map<String, String> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -54,6 +57,17 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integ
 	@Override
 	protected Field<Integer> getPk() {
 		return p.ID;
+	}
+	
+	@Override
+	protected Map<String, String> getSortMapping() {
+		if (sortMapping == null) {
+			sortMapping = Maps.newHashMap();
+			sortMapping.put("startTime", p.START_TIME.getName());
+			sortMapping.put("packetLoss", p.PACKET_LOSS.getName());
+			sortMapping.put("avgLatency", p.AVG_LATENCY.getName());
+		}
+		return sortMapping;
 	}
 
 	@Override
