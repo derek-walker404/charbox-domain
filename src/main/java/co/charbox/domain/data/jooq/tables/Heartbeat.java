@@ -35,7 +35,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Heartbeat extends TableImpl<HeartbeatRecord> {
 
-	private static final long serialVersionUID = -55361411;
+	private static final long serialVersionUID = 1939889699;
 
 	/**
 	 * The reference instance of <code>charbot_0_1_0.heartbeat</code>
@@ -64,6 +64,11 @@ public class Heartbeat extends TableImpl<HeartbeatRecord> {
 	 * The column <code>charbot_0_1_0.heartbeat.time</code>.
 	 */
 	public final TableField<HeartbeatRecord, Timestamp> TIME = createField("time", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false).defaulted(true), this, "");
+
+	/**
+	 * The column <code>charbot_0_1_0.heartbeat.ci_id</code>.
+	 */
+	public final TableField<HeartbeatRecord, Integer> CI_ID = createField("ci_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
 	/**
 	 * Create a <code>charbot_0_1_0.heartbeat</code> table reference
