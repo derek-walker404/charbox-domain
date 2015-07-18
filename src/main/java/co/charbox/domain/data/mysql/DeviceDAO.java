@@ -1,6 +1,7 @@
 package co.charbox.domain.data.mysql;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.Record;
@@ -60,5 +61,11 @@ public class DeviceDAO extends AbstractSimpleJooqDAO<DeviceModel, Integer, Simpl
 					.id(rec.getValue(d.ID))
 					.name(rec.getValue(d.NAME))
 					.build();
+	}
+	
+	public static void main(String[] args) {
+		for (int i=0;i<5;i++) {
+			System.out.println(UUID.randomUUID().toString());
+		}
 	}
 }

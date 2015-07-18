@@ -40,7 +40,7 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 	private final Location loc = Location.LOCATION.as("loc");
 	
 	private List<Field<?>> fields;
-	private Map<String, String> sortMapping;
+	private Map<String, Field<?>> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -68,11 +68,11 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 	}
 	
 	@Override
-	protected Map<String, String> getSortMapping() {
+	protected Map<String, Field<?>> getSortMapping() {
 		if (sortMapping == null) {
 			sortMapping = Maps.newHashMap();
-			sortMapping.put("startTime", o.START_TIME.getName());
-			sortMapping.put("duration", o.DURATION.getName());
+			sortMapping.put("startTime", o.START_TIME);
+			sortMapping.put("duration", o.DURATION);
 		}
 		return sortMapping;
 	}
