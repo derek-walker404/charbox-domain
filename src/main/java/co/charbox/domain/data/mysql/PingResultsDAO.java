@@ -42,7 +42,7 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integ
 
 	@Autowired private DaoProvider daoProvider;
 	private List<Field<?>> fields;
-	private Map<String, String> sortMapping;
+	private Map<String, Field<?>> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -60,12 +60,12 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integ
 	}
 	
 	@Override
-	protected Map<String, String> getSortMapping() {
+	protected Map<String, Field<?>> getSortMapping() {
 		if (sortMapping == null) {
 			sortMapping = Maps.newHashMap();
-			sortMapping.put("startTime", p.START_TIME.getName());
-			sortMapping.put("packetLoss", p.PACKET_LOSS.getName());
-			sortMapping.put("avgLatency", p.AVG_LATENCY.getName());
+			sortMapping.put("startTime", p.START_TIME);
+			sortMapping.put("packetLoss", p.PACKET_LOSS);
+			sortMapping.put("avgLatency", p.AVG_LATENCY);
 		}
 		return sortMapping;
 	}

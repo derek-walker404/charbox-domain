@@ -42,7 +42,7 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 	
 	@Autowired private DaoProvider daoProvider;
 	private List<Field<?>> fields;
-	private Map<String, String> sortMapping;
+	private Map<String, Field<?>> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -60,13 +60,13 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 	}
 	
 	@Override
-	public Map<String, String> getSortMapping() {
+	public Map<String, Field<?>> getSortMapping() {
 		if (sortMapping == null) {
 			sortMapping = Maps.newHashMap();
-			sortMapping.put("startTime", sst.START_TIME.getName());
-			sortMapping.put("downloadSpeed", sst.DOWN_SPEED.getName());
-			sortMapping.put("uploadSpeed", sst.UP_SPEED.getName());
-			sortMapping.put("pingDuration", sst.PING_DURATION.getName());
+			sortMapping.put("startTime", sst.START_TIME);
+			sortMapping.put("downloadSpeed", sst.DOWN_SPEED);
+			sortMapping.put("uploadSpeed", sst.UP_SPEED);
+			sortMapping.put("pingDuration", sst.PING_DURATION);
 		}
 		return sortMapping;
 	}

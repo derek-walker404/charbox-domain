@@ -70,6 +70,7 @@ INSERT INTO device_configs (`id`, `device_id`, `version`, `registered`, `schedul
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL DEFAULT 'New Device',
+  `deviceId` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_name` (`name` ASC))
 ENGINE = InnoDB
