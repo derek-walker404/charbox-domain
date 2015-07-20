@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.Record;
-import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +12,9 @@ import co.charbox.domain.data.jooq.tables.records.VersionsRecord;
 import co.charbox.domain.model.DeviceVersionModel;
 
 import com.google.common.collect.Lists;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
 @Component
-public class DeviceVersionDAO extends AbstractSimpleJooqDAO<DeviceVersionModel, Integer, SimpleSearchContext> {
+public class DeviceVersionDAO extends CharbotJooqDao<DeviceVersionModel> {
 
 	public static final String ALIAS = "v";
 	
@@ -42,11 +39,6 @@ public class DeviceVersionDAO extends AbstractSimpleJooqDAO<DeviceVersionModel, 
 	@Override
 	public List<Field<?>> getFields() {
 		return fields;
-	}
-
-	@Override
-	protected SelectWhereStep<Record> getBaseQuery() {
-		return db().select(getTable().fields()).from(getTable());
 	}
 
 	@Override

@@ -4,20 +4,18 @@ import java.util.List;
 
 import org.jooq.Field;
 import org.jooq.Record;
-import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.data.jooq.tables.ServerAuth;
 import co.charbox.domain.data.jooq.tables.records.ServerAuthRecord;
+import co.charbox.domain.data.mysql.CharbotJooqDao;
 import co.charbox.domain.model.auth.ServerAuthModel;
 
 import com.google.common.collect.Lists;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
 @Component
-public class ServerAuthDAO extends AbstractSimpleJooqDAO<ServerAuthModel, Integer, SimpleSearchContext> {
+public class ServerAuthDAO extends CharbotJooqDao<ServerAuthModel> {
 
 	public static final String ALIAS = "sa";
 	
@@ -44,11 +42,6 @@ public class ServerAuthDAO extends AbstractSimpleJooqDAO<ServerAuthModel, Intege
 		return fields;
 	}
 
-	@Override
-	protected SelectWhereStep<Record> getBaseQuery() {
-		return db().select(getFields()).from(sa);
-	}
-	
 	public ServerAuthModel find(ServerAuthModel model) {
 		return convert(getBaseQuery()
 				.where(sa.SERVER_ID.eq(model.getServerId())

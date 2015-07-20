@@ -25,11 +25,10 @@ import co.charbox.domain.model.mm.SimpleLocationModel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
+import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
-public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integer, SimpleSearchContext> {
+public class PingResultsDAO extends CharbotJooqDao<PingResultModel> {
 
 	public static final String ALIAS = "p";
 	
@@ -91,7 +90,7 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integ
 		return fields;
 	}
 	
-	public ResultsSet<PingResultModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+	public ResultsSet<PingResultModel> findByDeviceId(PrincipalSearchContext context, Integer deviceId) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(p.DEVICE_ID.eq(deviceId));
 		addSearchMeta(sql, context, false);
 		return convert(sql.fetch(), context);

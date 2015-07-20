@@ -4,10 +4,12 @@ import java.util.Set;
 
 import org.elasticsearch.common.collect.Sets;
 
+import co.charbox.domain.model.RoleModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tpofof.core.security.IAuthModel;
 
-public class AdminAuthModel implements IAuthModel {
+public class AdminAuthModel implements CharbotAuthModel {
 
 	public boolean isAdmin() {
 		return true;
@@ -18,15 +20,15 @@ public class AdminAuthModel implements IAuthModel {
 	}
 
 	@JsonIgnore
-	public Set<String> getRoles() {
-		return Sets.newHashSet("ADMIN");
+	public Set<RoleModel> getRoles() {
+		return Sets.newHashSet(RoleModel.getAdminRole());
 	}
 
-	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {
+	public <AuthModelT extends IAuthModel<RoleModel>> AuthModelT to(Class<AuthModelT> clazz) {
 		return is(clazz) ? clazz.cast(this) : null;
 	}
 	
-	public <AuthModelT extends IAuthModel> boolean is(Class<AuthModelT> clazz) {
+	public <AuthModelT extends IAuthModel<RoleModel>> boolean is(Class<AuthModelT> clazz) {
 		return getClass().equals(clazz);
 	}
 }

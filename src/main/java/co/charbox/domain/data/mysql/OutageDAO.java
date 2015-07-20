@@ -23,11 +23,10 @@ import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.google.api.client.util.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
+import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
-public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, SimpleSearchContext> {
+public class OutageDAO extends CharbotJooqDao<OutageModel> {
 
 	public static final String ALIAS = "o";
 	
@@ -86,7 +85,7 @@ public class OutageDAO extends AbstractSimpleJooqDAO<OutageModel, Integer, Simpl
 				.join(loc).on(loc.ID.eq(ci.LOCATION_ID));
 	}
 	
-	public ResultsSet<OutageModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+	public ResultsSet<OutageModel> findByDeviceId(PrincipalSearchContext context, Integer deviceId) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(o.DEVICE_ID.eq(deviceId));
 		addSearchMeta(sql, context, false);
 		return convert(sql.fetch(), context);

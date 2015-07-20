@@ -1,11 +1,9 @@
 package co.charbox.domain.data.mysql;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.jooq.Field;
 import org.jooq.Record;
-import org.jooq.SelectWhereStep;
 import org.jooq.Table;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +12,9 @@ import co.charbox.domain.data.jooq.tables.records.DevicesRecord;
 import co.charbox.domain.model.DeviceModel;
 
 import com.google.common.collect.Lists;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
 @Component
-public class DeviceDAO extends AbstractSimpleJooqDAO<DeviceModel, Integer, SimpleSearchContext> {
+public class DeviceDAO extends CharbotJooqDao<DeviceModel> {
 
 	public static final String ALIAS = "d";
 	
@@ -45,11 +41,6 @@ public class DeviceDAO extends AbstractSimpleJooqDAO<DeviceModel, Integer, Simpl
 		return fields;
 	}
 	
-	@Override
-	protected SelectWhereStep<Record> getBaseQuery() {
-		return db().select(getFields()).from(getTable());
-	}
-	
 	protected DevicesRecord convert(DeviceModel model) {
 		return new DevicesRecord(model.getId(), model.getName());
 	}
@@ -61,11 +52,5 @@ public class DeviceDAO extends AbstractSimpleJooqDAO<DeviceModel, Integer, Simpl
 					.id(rec.getValue(d.ID))
 					.name(rec.getValue(d.NAME))
 					.build();
-	}
-	
-	public static void main(String[] args) {
-		for (int i=0;i<5;i++) {
-			System.out.println(UUID.randomUUID().toString());
-		}
 	}
 }

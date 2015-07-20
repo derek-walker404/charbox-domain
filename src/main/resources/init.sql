@@ -70,7 +70,6 @@ INSERT INTO device_configs (`id`, `device_id`, `version`, `registered`, `schedul
 CREATE TABLE IF NOT EXISTS `devices` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL DEFAULT 'New Device',
-  `deviceId` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `idx_name` (`name` ASC))
 ENGINE = InnoDB
@@ -231,6 +230,30 @@ CREATE TABLE IF NOT EXISTS `token_auth` (
   INDEX `idx_token_asset_service` (`token` ASC, `asset_id` ASC, `service_name` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `udev`
+-- -----------------------------------------------------
+CREATE TABLE `udev` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `device_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `idx_uid_did` (`user_id` ASC, `device_id` ASC));
+  
+
+-- -----------------------------------------------------
+-- Table `users`
+-- -----------------------------------------------------  
+CREATE TABLE `users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `pass_hash` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(45) NULL DEFAULT 'New User',
+  PRIMARY KEY (`id`),
+  INDEX `idx_email_ph` (`email` ASC, `pass_hash` ASC),
+  UNIQUE INDEX `email_UNIQUE` (`email` ASC));
 
 
 -- -----------------------------------------------------

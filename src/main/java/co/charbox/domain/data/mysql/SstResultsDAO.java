@@ -25,11 +25,10 @@ import co.charbox.domain.model.mm.SimpleLocationModel;
 
 import com.google.common.collect.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
+import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
-public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Integer, SimpleSearchContext> {
+public class SstResultsDAO extends CharbotJooqDao<SstResultsModel> {
 
 	public static final String ALIAS = "sst";
 	
@@ -92,7 +91,7 @@ public class SstResultsDAO extends AbstractSimpleJooqDAO<SstResultsModel, Intege
 		return fields;
 	}
 
-	public ResultsSet<SstResultsModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+	public ResultsSet<SstResultsModel> findByDeviceId(PrincipalSearchContext context, Integer deviceId) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(sst.DEVICE_ID.eq(deviceId));
 		addSearchMeta(sql, context, false);
 		return convert(sql.fetch(), context);

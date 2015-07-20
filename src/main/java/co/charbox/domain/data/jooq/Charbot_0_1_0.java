@@ -17,6 +17,8 @@ import co.charbox.domain.data.jooq.tables.ServerAuth;
 import co.charbox.domain.data.jooq.tables.SimpleLocation;
 import co.charbox.domain.data.jooq.tables.Sst;
 import co.charbox.domain.data.jooq.tables.TokenAuth;
+import co.charbox.domain.data.jooq.tables.Udev;
+import co.charbox.domain.data.jooq.tables.Users;
 import co.charbox.domain.data.jooq.tables.Versions;
 
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Charbot_0_1_0 extends SchemaImpl {
 
-	private static final long serialVersionUID = 797190466;
+	private static final long serialVersionUID = -941169636;
 
 	/**
 	 * The reference instance of <code>charbot_0_1_0</code>
@@ -78,6 +80,8 @@ public class Charbot_0_1_0 extends SchemaImpl {
 			SimpleLocation.SIMPLE_LOCATION,
 			Sst.SST,
 			TokenAuth.TOKEN_AUTH,
+			Udev.UDEV,
+			Users.USERS,
 			Versions.VERSIONS);
 	}
 }

@@ -17,6 +17,8 @@ import co.charbox.domain.data.jooq.tables.ServerAuth;
 import co.charbox.domain.data.jooq.tables.SimpleLocation;
 import co.charbox.domain.data.jooq.tables.Sst;
 import co.charbox.domain.data.jooq.tables.TokenAuth;
+import co.charbox.domain.data.jooq.tables.Udev;
+import co.charbox.domain.data.jooq.tables.Users;
 import co.charbox.domain.data.jooq.tables.Versions;
 
 import javax.annotation.Generated;
@@ -99,6 +101,16 @@ public class Tables {
 	 * The table charbot_0_1_0.token_auth
 	 */
 	public static final TokenAuth TOKEN_AUTH = co.charbox.domain.data.jooq.tables.TokenAuth.TOKEN_AUTH;
+
+	/**
+	 * The table charbot_0_1_0.udev
+	 */
+	public static final Udev UDEV = co.charbox.domain.data.jooq.tables.Udev.UDEV;
+
+	/**
+	 * The table charbot_0_1_0.users
+	 */
+	public static final Users USERS = co.charbox.domain.data.jooq.tables.Users.USERS;
 
 	/**
 	 * The table charbot_0_1_0.versions

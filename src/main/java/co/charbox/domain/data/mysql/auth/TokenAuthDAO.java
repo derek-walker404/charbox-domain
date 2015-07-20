@@ -5,21 +5,21 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.jooq.Field;
 import org.jooq.Record;
-import org.jooq.SelectWhereStep;
+import org.jooq.SelectConditionStep;
 import org.jooq.Table;
 import org.springframework.stereotype.Component;
 
 import co.charbox.domain.data.jooq.tables.TokenAuth;
 import co.charbox.domain.data.jooq.tables.records.TokenAuthRecord;
+import co.charbox.domain.data.mysql.CharbotJooqDao;
 import co.charbox.domain.model.auth.TokenAuthModel;
 
 import com.google.common.collect.Lists;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
+import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
-public class TokenAuthDAO extends AbstractSimpleJooqDAO<TokenAuthModel, Integer, SimpleSearchContext> {
+public class TokenAuthDAO extends CharbotJooqDao<TokenAuthModel> {
 
 	public static final String ALIAS = "ta";
 	
@@ -46,11 +46,6 @@ public class TokenAuthDAO extends AbstractSimpleJooqDAO<TokenAuthModel, Integer,
 		return fields;
 	}
 
-	@Override
-	protected SelectWhereStep<Record> getBaseQuery() {
-		return db().select(getFields()).from(ta);
-	}
-	
 	public TokenAuthModel find(TokenAuthModel model) {
 		return convert(getBaseQuery()
 				.where(ta.ASSET_ID.eq(model.getAuthAssetId())
@@ -65,10 +60,11 @@ public class TokenAuthDAO extends AbstractSimpleJooqDAO<TokenAuthModel, Integer,
 				.fetchOne());
 	}
 	
-	public ResultsSet<TokenAuthModel> findExpired(SimpleSearchContext context) {
-		return convert(getBaseQuery()
-				.where(ta.EXPIRATION.lt(safe(new DateTime())))
-				.fetch(), context);
+	public ResultsSet<TokenAuthModel> findExpired(PrincipalSearchContext context) {
+		SelectConditionStep<Record> sql = getBaseQuery()
+				.where(ta.EXPIRATION.lt(safe(new DateTime())));
+		addSearchMeta(sql, context, false);
+		return convert(sql.fetch(), context);
 	}
 
 	@Override
