@@ -1,6 +1,7 @@
 package co.charbox.domain.data.mysql;
 
 import java.util.List;
+import java.util.Map;
 
 import org.jooq.Field;
 import org.jooq.Record;
@@ -12,6 +13,7 @@ import co.charbox.domain.data.jooq.tables.records.VersionsRecord;
 import co.charbox.domain.model.DeviceVersionModel;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Component
 public class DeviceVersionDAO extends CharbotJooqDao<DeviceVersionModel> {
@@ -20,6 +22,7 @@ public class DeviceVersionDAO extends CharbotJooqDao<DeviceVersionModel> {
 	
 	private final Versions v = Versions.VERSIONS.as(ALIAS);
 	private final List<Field<?>> fields = Lists.newArrayList(v.fields());
+	private Map<String, Field<?>> sortMapping;
 	
 	@Override
 	protected Table<?> getTable() {
@@ -34,6 +37,15 @@ public class DeviceVersionDAO extends CharbotJooqDao<DeviceVersionModel> {
 	@Override
 	protected Field<Integer> getPk() {
 		return v.ID;
+	}
+	
+	@Override
+	public Map<String, Field<?>> getSortMapping() {
+		if (sortMapping == null) {
+			sortMapping = Maps.newHashMap();
+			sortMapping.put("versionSort", v.SORT);
+		}
+		return sortMapping;
 	}
 
 	@Override
