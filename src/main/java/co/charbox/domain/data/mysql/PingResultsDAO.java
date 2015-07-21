@@ -11,6 +11,7 @@ import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.data.jooq.tables.Connection;
 import co.charbox.domain.data.jooq.tables.ConnectionInfo;
 import co.charbox.domain.data.jooq.tables.Devices;
@@ -25,11 +26,9 @@ import co.charbox.domain.model.mm.SimpleLocationModel;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
 @Component
-public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integer, SimpleSearchContext> {
+public class PingResultsDAO extends CharbotJooqDao<PingResultModel> {
 
 	public static final String ALIAS = "p";
 	
@@ -91,7 +90,7 @@ public class PingResultsDAO extends AbstractSimpleJooqDAO<PingResultModel, Integ
 		return fields;
 	}
 	
-	public ResultsSet<PingResultModel> findByDeviceId(SimpleSearchContext context, Integer deviceId) {
+	public ResultsSet<PingResultModel> findByDeviceId(CharbotSearchContext context, Integer deviceId) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(p.DEVICE_ID.eq(deviceId));
 		addSearchMeta(sql, context, false);
 		return convert(sql.fetch(), context);

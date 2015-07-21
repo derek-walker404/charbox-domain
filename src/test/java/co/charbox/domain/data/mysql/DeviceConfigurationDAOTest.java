@@ -42,11 +42,11 @@ public class DeviceConfigurationDAOTest extends CharbotSimpleJooqDaoTest<DeviceC
 		DeviceConfigurationModel expected = getDao().insert(getProvider().getModel(null));
 		assertNotNull(expected);
 		
-		DeviceConfigurationModel actual = getDao().findByDeviceId(expected.getDevice().getId());
+		DeviceConfigurationModel actual = getDao().findByDeviceId(getContext(), expected.getDevice().getId());
 		assertEquals(expected, actual);
 		
 		assertTrue(getDao().delete(expected.getId()));
-		assertNull(getDao().findByDeviceId(expected.getDevice().getId()));
+		assertNull(getDao().findByDeviceId(getContext(), expected.getDevice().getId()));
 	}
 	
 	@Test

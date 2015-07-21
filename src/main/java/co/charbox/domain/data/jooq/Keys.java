@@ -17,6 +17,8 @@ import co.charbox.domain.data.jooq.tables.ServerAuth;
 import co.charbox.domain.data.jooq.tables.SimpleLocation;
 import co.charbox.domain.data.jooq.tables.Sst;
 import co.charbox.domain.data.jooq.tables.TokenAuth;
+import co.charbox.domain.data.jooq.tables.Udev;
+import co.charbox.domain.data.jooq.tables.Users;
 import co.charbox.domain.data.jooq.tables.Versions;
 import co.charbox.domain.data.jooq.tables.records.ConnectionInfoRecord;
 import co.charbox.domain.data.jooq.tables.records.ConnectionRecord;
@@ -31,6 +33,8 @@ import co.charbox.domain.data.jooq.tables.records.ServerAuthRecord;
 import co.charbox.domain.data.jooq.tables.records.SimpleLocationRecord;
 import co.charbox.domain.data.jooq.tables.records.SstRecord;
 import co.charbox.domain.data.jooq.tables.records.TokenAuthRecord;
+import co.charbox.domain.data.jooq.tables.records.UdevRecord;
+import co.charbox.domain.data.jooq.tables.records.UsersRecord;
 import co.charbox.domain.data.jooq.tables.records.VersionsRecord;
 
 import javax.annotation.Generated;
@@ -71,6 +75,8 @@ public class Keys {
 	public static final Identity<SimpleLocationRecord, Integer> IDENTITY_SIMPLE_LOCATION = Identities0.IDENTITY_SIMPLE_LOCATION;
 	public static final Identity<SstRecord, Integer> IDENTITY_SST = Identities0.IDENTITY_SST;
 	public static final Identity<TokenAuthRecord, Integer> IDENTITY_TOKEN_AUTH = Identities0.IDENTITY_TOKEN_AUTH;
+	public static final Identity<UdevRecord, Integer> IDENTITY_UDEV = Identities0.IDENTITY_UDEV;
+	public static final Identity<UsersRecord, Integer> IDENTITY_USERS = Identities0.IDENTITY_USERS;
 	public static final Identity<VersionsRecord, Integer> IDENTITY_VERSIONS = Identities0.IDENTITY_VERSIONS;
 
 	// -------------------------------------------------------------------------
@@ -92,6 +98,9 @@ public class Keys {
 	public static final UniqueKey<SimpleLocationRecord> KEY_SIMPLE_LOCATION_PRIMARY = UniqueKeys0.KEY_SIMPLE_LOCATION_PRIMARY;
 	public static final UniqueKey<SstRecord> KEY_SST_PRIMARY = UniqueKeys0.KEY_SST_PRIMARY;
 	public static final UniqueKey<TokenAuthRecord> KEY_TOKEN_AUTH_PRIMARY = UniqueKeys0.KEY_TOKEN_AUTH_PRIMARY;
+	public static final UniqueKey<UdevRecord> KEY_UDEV_PRIMARY = UniqueKeys0.KEY_UDEV_PRIMARY;
+	public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
+	public static final UniqueKey<UsersRecord> KEY_USERS_EMAIL_UNIQUE = UniqueKeys0.KEY_USERS_EMAIL_UNIQUE;
 	public static final UniqueKey<VersionsRecord> KEY_VERSIONS_PRIMARY = UniqueKeys0.KEY_VERSIONS_PRIMARY;
 
 	// -------------------------------------------------------------------------
@@ -117,6 +126,8 @@ public class Keys {
 		public static Identity<SimpleLocationRecord, Integer> IDENTITY_SIMPLE_LOCATION = createIdentity(SimpleLocation.SIMPLE_LOCATION, SimpleLocation.SIMPLE_LOCATION.ID);
 		public static Identity<SstRecord, Integer> IDENTITY_SST = createIdentity(Sst.SST, Sst.SST.ID);
 		public static Identity<TokenAuthRecord, Integer> IDENTITY_TOKEN_AUTH = createIdentity(TokenAuth.TOKEN_AUTH, TokenAuth.TOKEN_AUTH.ID);
+		public static Identity<UdevRecord, Integer> IDENTITY_UDEV = createIdentity(Udev.UDEV, Udev.UDEV.ID);
+		public static Identity<UsersRecord, Integer> IDENTITY_USERS = createIdentity(Users.USERS, Users.USERS.ID);
 		public static Identity<VersionsRecord, Integer> IDENTITY_VERSIONS = createIdentity(Versions.VERSIONS, Versions.VERSIONS.ID);
 	}
 
@@ -136,6 +147,9 @@ public class Keys {
 		public static final UniqueKey<SimpleLocationRecord> KEY_SIMPLE_LOCATION_PRIMARY = createUniqueKey(SimpleLocation.SIMPLE_LOCATION, SimpleLocation.SIMPLE_LOCATION.ID);
 		public static final UniqueKey<SstRecord> KEY_SST_PRIMARY = createUniqueKey(Sst.SST, Sst.SST.ID);
 		public static final UniqueKey<TokenAuthRecord> KEY_TOKEN_AUTH_PRIMARY = createUniqueKey(TokenAuth.TOKEN_AUTH, TokenAuth.TOKEN_AUTH.ID);
+		public static final UniqueKey<UdevRecord> KEY_UDEV_PRIMARY = createUniqueKey(Udev.UDEV, Udev.UDEV.ID);
+		public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = createUniqueKey(Users.USERS, Users.USERS.ID);
+		public static final UniqueKey<UsersRecord> KEY_USERS_EMAIL_UNIQUE = createUniqueKey(Users.USERS, Users.USERS.EMAIL);
 		public static final UniqueKey<VersionsRecord> KEY_VERSIONS_PRIMARY = createUniqueKey(Versions.VERSIONS, Versions.VERSIONS.ID);
 	}
 }

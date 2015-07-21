@@ -9,7 +9,7 @@ import co.charbox.domain.model.RoleModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tpofof.core.security.IAuthModel;
 
-public class AdminAuthModel implements CharbotAuthModel {
+public class SystemAuthModel implements CharbotAuthModel {
 
 	public boolean isAdmin() {
 		return true;
@@ -21,7 +21,7 @@ public class AdminAuthModel implements CharbotAuthModel {
 
 	@JsonIgnore
 	public Set<RoleModel> getRoles() {
-		return Sets.newHashSet(RoleModel.getAdminRole());
+		return Sets.newHashSet(RoleModel.getSystemRole());
 	}
 
 	public <AuthModelT extends IAuthModel<RoleModel>> AuthModelT to(Class<AuthModelT> clazz) {

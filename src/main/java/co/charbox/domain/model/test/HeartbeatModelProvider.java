@@ -16,6 +16,7 @@ public class HeartbeatModelProvider implements CharbotModelProvider<HeartbeatMod
 	private DeviceModel device;
 	@Autowired private DeviceDAO deviceDao;
 	@Autowired private DeviceModelProvider devicePro;
+	@Autowired private ConnectionInfoModelProvider ciPro;
 	
 	@Override
 	public HeartbeatModel getModel(Integer id) {
@@ -28,6 +29,7 @@ public class HeartbeatModelProvider implements CharbotModelProvider<HeartbeatMod
 				.id(id)
 				.device(device)
 				.time(time)
+				.connection(ciPro.getModel(null))
 				.build();
 	}
 }

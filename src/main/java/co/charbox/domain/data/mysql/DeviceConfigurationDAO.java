@@ -10,6 +10,7 @@ import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.data.jooq.tables.DeviceConfigs;
 import co.charbox.domain.data.jooq.tables.Devices;
 import co.charbox.domain.data.jooq.tables.records.DeviceConfigsRecord;
@@ -17,12 +18,10 @@ import co.charbox.domain.model.DeviceConfigurationModel;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.collect.Lists;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 import com.tpofof.core.utils.json.JsonUtils;
 
 @Component
-public class DeviceConfigurationDAO extends AbstractSimpleJooqDAO<DeviceConfigurationModel, Integer, SimpleSearchContext> {
+public class DeviceConfigurationDAO extends CharbotJooqDao<DeviceConfigurationModel> {
 
 	public static final String ALIAS = "dc";
 	
@@ -64,7 +63,7 @@ public class DeviceConfigurationDAO extends AbstractSimpleJooqDAO<DeviceConfigur
 				.join(d).on(d.ID.eq(dc.DEVICE_ID));
 	}
 	
-	public DeviceConfigurationModel findByDeviceId(Integer deviceId) {
+	public DeviceConfigurationModel findByDeviceId(CharbotSearchContext context, Integer deviceId) {
 		return convert(getBaseQuery()
 				.where(dc.DEVICE_ID.eq(deviceId))
 				.fetchOne());

@@ -20,11 +20,8 @@ import co.charbox.domain.data.jooq.tables.records.HeartbeatRecord;
 import co.charbox.domain.model.HeartbeatModel;
 import co.charbox.domain.model.mm.ConnectionInfoModel;
 
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
-
 @Component
-public class HeartbeatDAO extends AbstractSimpleJooqDAO<HeartbeatModel, Integer, SimpleSearchContext> {
+public class HeartbeatDAO extends CharbotJooqDao<HeartbeatModel> {
 
 	public static final String ALIAS = "hb";
 	

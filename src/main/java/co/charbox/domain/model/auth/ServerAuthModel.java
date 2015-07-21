@@ -10,6 +10,8 @@ import lombok.NonNull;
 
 import org.elasticsearch.common.collect.Sets;
 
+import co.charbox.domain.model.RoleModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.tpofof.core.data.IPersistentModel;
 import com.tpofof.core.security.IAuthModel;
@@ -18,7 +20,7 @@ import com.tpofof.core.security.IAuthModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServerAuthModel implements IPersistentModel<ServerAuthModel, Integer>, IAuthModel {
+public class ServerAuthModel implements IPersistentModel<ServerAuthModel, Integer>, CharbotAuthModel {
 
 	private Integer id;
 	private boolean activated;
@@ -32,15 +34,18 @@ public class ServerAuthModel implements IPersistentModel<ServerAuthModel, Intege
 	}
 	
 	@JsonIgnore
-	public Set<String> getRoles() {
-		return Sets.newHashSet("SERVER", getServerId(), getServiceName().toUpperCase());
+	public Set<RoleModel> getRoles() {
+		RoleModel serviceRole = RoleModel.getServiceRole();
+		RoleModel serviceNameRole = RoleModel.getServiceRole(getServiceName());
+		RoleModel serverIdRole = RoleModel.getServiceRole(getServiceName(), getServerId());
+		return Sets.newHashSet(serviceRole, serviceNameRole, serverIdRole);
 	}
 
-	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {
+	public <AuthModelT extends IAuthModel<RoleModel>> AuthModelT to(Class<AuthModelT> clazz) {
 		return is(clazz) ? clazz.cast(this) : null;
 	}
 	
-	public <AuthModelT extends IAuthModel> boolean is(Class<AuthModelT> clazz) {
+	public <AuthModelT extends IAuthModel<RoleModel>> boolean is(Class<AuthModelT> clazz) {
 		return getClass().equals(clazz);
 	}
 }

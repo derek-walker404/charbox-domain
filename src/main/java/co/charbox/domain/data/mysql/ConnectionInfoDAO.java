@@ -10,6 +10,7 @@ import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.data.jooq.tables.Connection;
 import co.charbox.domain.data.jooq.tables.ConnectionInfo;
 import co.charbox.domain.data.jooq.tables.Location;
@@ -19,11 +20,9 @@ import co.charbox.domain.model.mm.ConnectionModel;
 import co.charbox.domain.model.mm.LocationModel;
 
 import com.google.common.collect.Lists;
-import com.tpofof.core.data.dao.context.SimpleSearchContext;
-import com.tpofof.core.data.dao.jdbc.AbstractSimpleJooqDAO;
 
 @Component
-public class ConnectionInfoDAO extends AbstractSimpleJooqDAO<ConnectionInfoModel, Integer, SimpleSearchContext> {
+public class ConnectionInfoDAO extends CharbotJooqDao<ConnectionInfoModel> {
 
 	public static final String ALIAS = "ci";
 	
@@ -103,7 +102,7 @@ public class ConnectionInfoDAO extends AbstractSimpleJooqDAO<ConnectionInfoModel
 		return super.insert(model);
 	}
 	
-	public ConnectionInfoModel find(String ip, Double lat, Double lon) {
+	public ConnectionInfoModel find(CharbotSearchContext context, String ip, Double lat, Double lon) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(c.IP.eq(ip)
 				.and(loc.LAT.eq(lat))
 				.and(loc.LON.eq(lon)));

@@ -10,6 +10,8 @@ import lombok.NonNull;
 
 import org.joda.time.DateTime;
 
+import co.charbox.domain.model.RoleModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Sets;
 import com.tpofof.core.data.IPersistentModel;
@@ -19,7 +21,7 @@ import com.tpofof.core.security.IAuthModel;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>, IAuthModel {
+public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>, CharbotAuthModel {
 	
 	private Integer id;
 	private DateTime expiration;
@@ -27,10 +29,10 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>
 	@NonNull private Integer authAssetId;
 	@NonNull private String serviceName;
 
-	public boolean isValid(Integer authAssetId, String serviceName) {
+	public boolean isValid(Integer expectedAuthAssetId, String expectedServiceName) {
 		return new DateTime().compareTo(getExpiration()) < 0 && 
-				getAuthAssetId().equals(authAssetId) &&
-				getServiceName().equals(serviceName);
+				getAuthAssetId().equals(expectedAuthAssetId) &&
+				getServiceName().equals(expectedServiceName);
 	}
 
 	@JsonIgnore
@@ -39,8 +41,10 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>
 	}
 	
 	@JsonIgnore
-	public Set<String> getRoles() {
-		return Sets.newHashSet("TOKEN", getAuthAssetId() + "", getServiceName().toUpperCase());
+	public Set<RoleModel> getRoles() {
+		return Sets.newHashSet(RoleModel.getTokenRole(), 
+				RoleModel.getTokenRole("DEVICE", getAuthAssetId()), // TODO: move to field/db 
+				RoleModel.getServiceRole(getServiceName()));
 	}
 
 	@JsonIgnore
@@ -48,11 +52,11 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>
 		return new DateTime().compareTo(getExpiration()) < 0;
 	}
 
-	public <AuthModelT extends IAuthModel> AuthModelT to(Class<AuthModelT> clazz) {
+	public <AuthModelT extends IAuthModel<RoleModel>> AuthModelT to(Class<AuthModelT> clazz) {
 		return is(clazz) ? clazz.cast(this) : null;
 	}
 	
-	public <AuthModelT extends IAuthModel> boolean is(Class<AuthModelT> clazz) {
+	public <AuthModelT extends IAuthModel<RoleModel>> boolean is(Class<AuthModelT> clazz) {
 		return getClass().equals(clazz);
 	}
 }
