@@ -12,6 +12,7 @@ import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.data.jooq.tables.Connection;
 import co.charbox.domain.data.jooq.tables.ConnectionInfo;
 import co.charbox.domain.data.jooq.tables.Devices;
@@ -23,7 +24,6 @@ import co.charbox.domain.model.mm.ConnectionInfoModel;
 
 import com.google.api.client.util.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
 public class OutageDAO extends CharbotJooqDao<OutageModel> {
@@ -85,7 +85,7 @@ public class OutageDAO extends CharbotJooqDao<OutageModel> {
 				.join(loc).on(loc.ID.eq(ci.LOCATION_ID));
 	}
 	
-	public ResultsSet<OutageModel> findByDeviceId(PrincipalSearchContext context, Integer deviceId) {
+	public ResultsSet<OutageModel> findByDeviceId(CharbotSearchContext context, Integer deviceId) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(o.DEVICE_ID.eq(deviceId));
 		addSearchMeta(sql, context, false);
 		return convert(sql.fetch(), context);

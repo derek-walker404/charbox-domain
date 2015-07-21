@@ -12,6 +12,7 @@ import org.jooq.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.data.jooq.tables.Connection;
 import co.charbox.domain.data.jooq.tables.ConnectionInfo;
 import co.charbox.domain.data.jooq.tables.Devices;
@@ -25,7 +26,6 @@ import co.charbox.domain.model.mm.SimpleLocationModel;
 
 import com.google.common.collect.Maps;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
 public class SstResultsDAO extends CharbotJooqDao<SstResultsModel> {
@@ -91,7 +91,7 @@ public class SstResultsDAO extends CharbotJooqDao<SstResultsModel> {
 		return fields;
 	}
 
-	public ResultsSet<SstResultsModel> findByDeviceId(PrincipalSearchContext context, Integer deviceId) {
+	public ResultsSet<SstResultsModel> findByDeviceId(CharbotSearchContext context, Integer deviceId) {
 		SelectConditionStep<Record> sql = getBaseQuery().where(sst.DEVICE_ID.eq(deviceId));
 		addSearchMeta(sql, context, false);
 		return convert(sql.fetch(), context);

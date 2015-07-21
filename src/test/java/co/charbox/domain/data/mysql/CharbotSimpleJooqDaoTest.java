@@ -3,18 +3,18 @@ package co.charbox.domain.data.mysql;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.model.UserModel;
 
 import com.tpofof.core.App;
 import com.tpofof.core.data.IPersistentModel;
-import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 import com.tpofof.core.data.dao.context.SearchWindow;
 import com.tpofof.core.data.dao.jdbc.JooqConnectionProvider;
 import com.tpofof.core.data.dao.test.AbstractSimpleJooqDaoTest;
 import com.tpofof.core.utils.Config;
 
 public abstract class CharbotSimpleJooqDaoTest<ModelT extends IPersistentModel<ModelT, Integer>> 
-		extends AbstractSimpleJooqDaoTest<ModelT, Integer, CharbotJooqDao<ModelT>, PrincipalSearchContext> {
+		extends AbstractSimpleJooqDaoTest<ModelT, Integer, CharbotJooqDao<ModelT>, CharbotSearchContext> {
 
 	private static JooqConnectionProvider connPro;
 	private static Config config;
@@ -33,8 +33,8 @@ public abstract class CharbotSimpleJooqDaoTest<ModelT extends IPersistentModel<M
 	}
 	
 	@Override
-	protected PrincipalSearchContext getContext(int limit, int offset) {
-		return PrincipalSearchContext.builder()
+	protected CharbotSearchContext getContext(int limit, int offset) {
+		return CharbotSearchContext.builder()
 				.window(SearchWindow.builder()
 						.limit(limit)
 						.offset(offset)

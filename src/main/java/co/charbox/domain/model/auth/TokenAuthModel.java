@@ -29,10 +29,10 @@ public class TokenAuthModel implements IPersistentModel<TokenAuthModel, Integer>
 	@NonNull private Integer authAssetId;
 	@NonNull private String serviceName;
 
-	public boolean isValid(Integer authAssetId, String serviceName) {
+	public boolean isValid(Integer expectedAuthAssetId, String expectedServiceName) {
 		return new DateTime().compareTo(getExpiration()) < 0 && 
-				getAuthAssetId().equals(authAssetId) &&
-				getServiceName().equals(serviceName);
+				getAuthAssetId().equals(expectedAuthAssetId) &&
+				getServiceName().equals(expectedServiceName);
 	}
 
 	@JsonIgnore

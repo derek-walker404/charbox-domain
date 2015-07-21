@@ -55,6 +55,10 @@ public class RoleModel implements IRoleModel {
 		return getRole("ADMIN");
 	}
 	
+	public static RoleModel getSystemRole() {
+		return getRole("SYSTEM");
+	}
+	
 	private static RoleModel getRole(String name) {
 		return RoleModel.builder()
 				.name(name.toUpperCase())

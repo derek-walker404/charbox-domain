@@ -9,6 +9,7 @@ import org.jooq.SelectConditionStep;
 import org.jooq.Table;
 import org.springframework.stereotype.Component;
 
+import co.charbox.domain.data.CharbotSearchContext;
 import co.charbox.domain.data.jooq.tables.TokenAuth;
 import co.charbox.domain.data.jooq.tables.records.TokenAuthRecord;
 import co.charbox.domain.data.mysql.CharbotJooqDao;
@@ -16,7 +17,6 @@ import co.charbox.domain.model.auth.TokenAuthModel;
 
 import com.google.common.collect.Lists;
 import com.tpofof.core.data.dao.ResultsSet;
-import com.tpofof.core.data.dao.context.PrincipalSearchContext;
 
 @Component
 public class TokenAuthDAO extends CharbotJooqDao<TokenAuthModel> {
@@ -60,7 +60,7 @@ public class TokenAuthDAO extends CharbotJooqDao<TokenAuthModel> {
 				.fetchOne());
 	}
 	
-	public ResultsSet<TokenAuthModel> findExpired(PrincipalSearchContext context) {
+	public ResultsSet<TokenAuthModel> findExpired(CharbotSearchContext context) {
 		SelectConditionStep<Record> sql = getBaseQuery()
 				.where(ta.EXPIRATION.lt(safe(new DateTime())));
 		addSearchMeta(sql, context, false);

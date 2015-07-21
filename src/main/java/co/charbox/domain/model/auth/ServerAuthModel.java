@@ -35,7 +35,10 @@ public class ServerAuthModel implements IPersistentModel<ServerAuthModel, Intege
 	
 	@JsonIgnore
 	public Set<RoleModel> getRoles() {
-		return Sets.newHashSet(RoleModel.getServiceRole(), RoleModel.getServiceRole(getServiceName()), RoleModel.getServiceRole(getServiceName(), getServerId()));
+		RoleModel serviceRole = RoleModel.getServiceRole();
+		RoleModel serviceNameRole = RoleModel.getServiceRole(getServiceName());
+		RoleModel serverIdRole = RoleModel.getServiceRole(getServiceName(), getServerId());
+		return Sets.newHashSet(serviceRole, serviceNameRole, serverIdRole);
 	}
 
 	public <AuthModelT extends IAuthModel<RoleModel>> AuthModelT to(Class<AuthModelT> clazz) {
