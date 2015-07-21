@@ -265,7 +265,7 @@ CREATE TABLE IF NOT EXISTS `versions` (
   `sort` BIGINT(20) NOT NULL,
   `install_script_url` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `idx_sort` (`sort` ASC),
+  INDEX `idx_sort` (`sort` DESC),
   INDEX `idx_version` (`version` ASC))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = latin1;
